@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">BEST</string>
+    <string name="instructionsButton">Instructions</string>
+    <string name="settingsAction">Subtask Settings</string>
+    <string name="loadprofileButton">Load Profile</string>
+    <string name="createprofileButton">Create Profile</string>
+    <string name="exportButton">Export Data</string>
+    <string name="infoAction">Additional Information</string>
+    <string name="additionalInfoText"><big><b>\nContact:\n\n</b></big><ul><li>Ciaran Considine: Ciaran.Considine@vanderbilt.edu\n\n</li><li>Chris Abeare: Cabeare@uwindsor.ca\n\n</li><li>Humza Khan: humza.adil.khan@gmail.com\n\n</li></ul><big><b>User Permissions:\n\n</b></big><ul><li>Universities, Foundations, Health Professionals, Clinics, Public Health Institutes:\n\nThe BEST may be used WITHOUT permission for all clinical, educational, and research purposes, WITH proper citation.\n\n</li><li>Commercial Entities, Pharma:\n\nPlease contact the authors.\n\n\n</li></ul><big><b>CITATION INFORMATION\n\n</b></big>Considine, C.M. &amp; Abeare, C.A. (2015). Brief Estimate of Seconds Test (BEST). Unpublished instrument.\n\nMalleck, M., Considine, C.M., Freund, S., &amp; Abeare, C.A. (2016, February). The Brief Estimate of Seconds Test (BEST): A pilot study examining initial psychometrics and norms for a new chronometric clinical test. Poster presented at the International Neuropsychological Society convention, Boston, MA.\n</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="defaultAllAction">Restore Defaults</string>
+    <string name="newProfileSaveAction">Save Profile</string>
+    <string name="rveInstructions">In a moment, I will press “Begin” and a tone will sound. When you hear the tone, please close your eyes and sit quietly until I give you further instruction.\n\n\nAgain, when I press “Begin” and you hear a tone, you will close your eyes and do nothing until I give you further instruction.\n\n\nDo you have any questions?</string>
+    <string name="rveDone">Examiner say: OPEN YOUR EYES.\nTell me your best guess at how much time passed while your eyes were closed.\nUse the field below, be as specific as you can.</string>
+    <string name="preInstructions">In a moment, I am going to press “Begin.” A first tone will sound, then after some time has passed, a second tone will sound.\n\nThen, it is your turn – I want you to use the button on the screen to make a tone, then wait the same amount of time before you press the button to make a second tone.\n\nYou will be trying to recreate the same pause between my two tones. Does that make sense?\n\nPlease do not speak, nor tap your hand or foot, just keep track in your head. Do you have any questions?</string>
+    <string name="pveInstructions">In a moment, I am going to press “Begin,” and a tone will play. After some time, you will hear a second tone.\n\n\nI want you to tell me how many seconds passed between the two tones.\n\n\nPlease do not speak, nor tap your hand or foot during the time, just keep track in your head.\n\n\nDo you have any questions?</string>
+    <string name="ppeInstructions">In a moment, I am going to give you a certain amount of time. I want you to press the button to make a tone, wait the amount of time I tell you, and then press the button a second time after you think that amount of time has passed.\n\nPlease do not speak, nor tap your hand or foot during the time, just keep track in your head.\n\nDo you have any questions?</string>
+    <string name="rbeInstructions">In a moment, I will press Begin and a button will appear on the screen. It will begin to blink and beep at a regular pace.\n\n\nI want you to keep pressing the button at the same time as the blink/beep, learning the rhythm.\n\n\nAfter a bit of time, the blinking and beeping will stop, but I want you to keep pressing the button at the same rhythm that you learned. Keep doing this until the button disappears. Do you have any questions?</string>
+
+</resources>

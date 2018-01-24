@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.best.MainActivity">
+
+    <Button
+        android:id="@+id/instructionsButton"
+        android:layout_width="220dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/instructionsButton"
+        android:onClick="instructionsClick"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainTitle"/>
+
+    <Button
+        android:id="@+id/loadprofileButton"
+        android:layout_width="106dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/loadprofileButton"
+        android:onClick="loadProfileClick"
+        app:layout_constraintStart_toStartOf="@+id/instructionsButton"
+        app:layout_constraintTop_toBottomOf="@+id/instructionsButton"/>
+
+    <Button
+        android:id="@+id/createprofileButton"
+        android:layout_width="106dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/createprofileButton"
+        android:onClick="createProfileClick"
+        app:layout_constraintEnd_toEndOf="@+id/instructionsButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructionsButton"/>
+
+    <Button
+        android:id="@+id/exportButton"
+        android:layout_width="220dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/exportButton"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createprofileButton"/>
+
+    <TextView
+        android:id="@+id/mainTitle"
+        android:layout_width="220dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="52dp"
+        android:text="Brief Estimate of Seconds Test"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

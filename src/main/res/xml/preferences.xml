@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Retrospective Verbal Estimate">
+
+        <EditTextPreference
+            android:defaultValue="53"
+            android:key="rvePref"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="RVE">
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Prospective Reproduction Estimate">
+
+        <EditTextPreference
+            android:defaultValue="23"
+            android:key="prePref1"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="PRE 1">
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="53"
+            android:key="prePref2"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="PRE 2">
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Prospective Verbal Estimate">
+
+        <EditTextPreference
+            android:defaultValue="23"
+            android:key="pvePref1"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="PVE 1">
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="53"
+            android:key="pvePref2"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="PVE 2">
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Prospective Production Estimate">
+
+        <EditTextPreference
+            android:defaultValue="23"
+            android:key="ppePref1"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="PPE 1">
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="53"
+            android:key="ppePref2"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="PPE 2">
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Rhythmic Beats Estimate">
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:key="rbePref"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="RBE">
+        </EditTextPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
