@@ -28,6 +28,7 @@ public class RVEInstructions extends AppCompatActivity {
         });
     }
 
+    // send examination data to next activity
     private void rveBeginClick() {
         Bundle bundle = getIntent().getExtras();
         String date = "";

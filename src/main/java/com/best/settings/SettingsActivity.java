@@ -111,8 +111,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             if (key.equals("rvePref")
                     || key.equals("prePref1") || key.equals("prePref2")
                     || key.equals("pvePref1") || key.equals("pvePref2")
-                    || key.equals("ppePref1") || key.equals("ppePref2")
-                    || key.equals("rbePref")) {
+                    || key.equals("ppePref1") || key.equals("ppePref2")) {
                 if (sh.getString(key, "").replaceFirst("^0+(?!$)", "").equals("1")) {
                     findPreference(key).setSummary("Target Time: " +
                             sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " second");
@@ -125,21 +124,52 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 EditTextPreference edt = (EditTextPreference) findPreference(key);
                 edt.setText(sh.getString(key, "").replaceFirst("^0+(?!$)", ""));
             }
-        }
-
-        public void setSummaries(SharedPreferences sh, String[] prefKeys) {
-            for (String key: prefKeys) {
+            else if (key.equals("rbePref")) {
                 if (sh.getString(key, "").replaceFirst("^0+(?!$)", "").equals("1")) {
-                    findPreference(key).setSummary("Target Time: " +
-                            sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " second");
+                    findPreference(key).setSummary("Beat Interval: " +
+                            sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " millisecond");
                 }
                 else {
-                    findPreference(key).setSummary("Target Time: " +
-                            sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " seconds");
+                    findPreference(key).setSummary("Beat Interval: " +
+                            sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " milliseconds");
                 }
 
                 EditTextPreference edt = (EditTextPreference) findPreference(key);
                 edt.setText(sh.getString(key, "").replaceFirst("^0+(?!$)", ""));
+            }
+        }
+
+        public void setSummaries(SharedPreferences sh, String[] prefKeys) {
+            for (String key: prefKeys) {
+                if (key.equals("rvePref")
+                        || key.equals("prePref1") || key.equals("prePref2")
+                        || key.equals("pvePref1") || key.equals("pvePref2")
+                        || key.equals("ppePref1") || key.equals("ppePref2")) {
+                    if (sh.getString(key, "").replaceFirst("^0+(?!$)", "").equals("1")) {
+                        findPreference(key).setSummary("Target Time: " +
+                                sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " second");
+                    }
+                    else {
+                        findPreference(key).setSummary("Target Time: " +
+                                sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " seconds");
+                    }
+
+                    EditTextPreference edt = (EditTextPreference) findPreference(key);
+                    edt.setText(sh.getString(key, "").replaceFirst("^0+(?!$)", ""));
+                }
+                else if (key.equals("rbePref")) {
+                    if (sh.getString(key, "").replaceFirst("^0+(?!$)", "").equals("1")) {
+                        findPreference(key).setSummary("Beat Interval: " +
+                                sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " millisecond");
+                    }
+                    else {
+                        findPreference(key).setSummary("Beat Interval: " +
+                                sh.getString(key, "").replaceFirst("^0+(?!$)", "") + " milliseconds");
+                    }
+
+                    EditTextPreference edt = (EditTextPreference) findPreference(key);
+                    edt.setText(sh.getString(key, "").replaceFirst("^0+(?!$)", ""));
+                }
             }
         }
     }

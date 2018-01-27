@@ -60,8 +60,8 @@ public class RBEInstructions extends AppCompatActivity {
         intent.putExtra("pre2Result", pre2Result);
         intent.putExtra("pve1Result", pve1Result);
         intent.putExtra("pve2Result", pve2Result);
-        intent.putExtra("ppe1result", ppe1Result);
-        intent.putExtra("ppe2result", ppe2Result);
+        intent.putExtra("ppe1Result", ppe1Result);
+        intent.putExtra("ppe2Result", ppe2Result);
         startActivity(intent);
     }
 }

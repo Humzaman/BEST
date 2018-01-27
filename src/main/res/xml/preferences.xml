@@ -81,7 +81,7 @@
         android:title="Rhythmic Beats Estimate">
 
         <EditTextPreference
-            android:defaultValue="30"
+            android:defaultValue="750"
             android:key="rbePref"
             android:numeric="integer"
             android:selectAllOnFocus="true"

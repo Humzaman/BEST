@@ -2,8 +2,7 @@ package com.best.subtasks.RVE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import java.util.TimerTask;
 public class RVETest extends AppCompatActivity {
 
     private Timer timer;
-    private ToneGenerator toneGen;
+    private SoundPool sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +27,25 @@ public class RVETest extends AppCompatActivity {
         setContentView(R.layout.activity_rve_test);
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(this);
-        long rveTarget = (Long.parseLong(sh.getString("rvePref", "")) * 1000) + 2000;
+        long rveTarget = (Long.parseLong(sh.getString("rvePref", "53")) * 1000) + 2000;
 
+        sound = new SoundPool.Builder().build();
+        final int toneId = sound.load(this, R.raw.tone1, 1);
         timer = new Timer();
-        toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
+        // create a timer to play a tone after 2 seconds
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                toneGen.startTone(ToneGenerator.TONE_DTMF_1,350);
+                sound.play(toneId, 1, 1, 1, 0, 1);
             }
         }, 2000);
 
+        // another tone plays after "rveTarget" seconds
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                toneGen.startTone(ToneGenerator.TONE_DTMF_1,350);
+                sound.play(toneId, 1, 1, 1, 0, 1);
                 rveTestDone();
             }
         }, rveTarget);
@@ -60,7 +62,7 @@ public class RVETest extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         timer.cancel();
-        toneGen.release();
+        sound.release();
         super.onDestroy();
     }
 

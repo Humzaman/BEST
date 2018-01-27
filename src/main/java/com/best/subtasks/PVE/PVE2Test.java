@@ -2,8 +2,7 @@ package com.best.subtasks.PVE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import java.util.TimerTask;
 public class PVE2Test extends AppCompatActivity {
 
     private Timer timer;
-    private ToneGenerator toneGen;
+    private SoundPool sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +27,23 @@ public class PVE2Test extends AppCompatActivity {
         setContentView(R.layout.activity_pve_test);
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(this);
-        long pveTarget = (Long.parseLong(sh.getString("pvePref2", "")) * 1000) + 2000;
+        long pveTarget = (Long.parseLong(sh.getString("pvePref2", "53")) * 1000) + 2000;
 
+        sound = new SoundPool.Builder().build();
+        final int toneId = sound.load(this, R.raw.tone1, 1);
         timer = new Timer();
-        toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                toneGen.startTone(ToneGenerator.TONE_DTMF_1,350);
+                sound.play(toneId, 1, 1, 1, 0, 1);
             }
         }, 2000);
 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                toneGen.startTone(ToneGenerator.TONE_DTMF_1,350);
+                sound.play(toneId, 1, 1, 1, 0, 1);
                 pveTestDone();
             }
         }, pveTarget);
@@ -60,7 +60,7 @@ public class PVE2Test extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         timer.cancel();
-        toneGen.release();
+        sound.release();
         super.onDestroy();
     }
 

@@ -23,7 +23,7 @@ public class PPEInterim extends AppCompatActivity {
         setContentView(R.layout.activity_ppe_interim);
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(this);
-        String ppeTarget = sh.getString("ppePref2", "");
+        String ppeTarget = sh.getString("ppePref2", "53");
 
         TextView tv = findViewById(R.id.ppe2TargetTextView);
         if (ppeTarget.equals("1")) {
@@ -72,7 +72,7 @@ public class PPEInterim extends AppCompatActivity {
         intent.putExtra("pre2Result", pre2Result);
         intent.putExtra("pve1Result", pve1Result);
         intent.putExtra("pve2Result", pve2Result);
-        intent.putExtra("ppe1result", ppe1Result);
+        intent.putExtra("ppe1Result", ppe1Result);
         startActivity(intent);
     }
 

@@ -1,16 +1,17 @@
 package com.best.subtasks.RBE;
 
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.best.R;
+import com.best.subtasks.EndBEST;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,11 +19,11 @@ import java.util.TimerTask;
 public class RBETest extends AppCompatActivity {
 
     private Button button;
-    private ToneGenerator toneGen;
+    private SoundPool sound;
     private Timer timer;
     private long beat;
-    private int tap;
-    private TextView tv;
+    private int beatCount;
+    private String rbeResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +33,19 @@ public class RBETest extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_rbe_test);
 
-        toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(this);
+        long rbeTarget = (Long.parseLong(sh.getString("rbePref", "750")));
+
         button = findViewById(R.id.rbeTestButton);
+        button.setClickable(false);
         timer = new Timer();
+        sound = new SoundPool.Builder().build();
+        final int toneId = sound.load(this, R.raw.tone1, 1);
         beat = 0;
-        tap = 0;
+        beatCount = 0;
+        rbeResult = "";
 
-        tv = findViewById(R.id.textViewRBE);
-
+        // start a timer that presses the button and beeps 10 times
         timer.schedule(new TimerTask() {
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -47,9 +53,11 @@ public class RBETest extends AppCompatActivity {
                     public void run() {
                         beat = System.currentTimeMillis();
 
-                        if (tap < 10) {
-                            toneGen.startTone(ToneGenerator.TONE_DTMF_1,100);
+                        // beep 10 times only
+                        if(beatCount < 10) {
+                            beatCount++;
                             button.setPressed(true);
+                            sound.play(toneId, 1, 1, 1, 0, 1);
 
                             timer.schedule(new TimerTask() {
                                 public void run() {
@@ -62,33 +70,20 @@ public class RBETest extends AppCompatActivity {
                                 }
                             }, 100);
                         }
+
+                        // once 10 beeps have completed, start measuring taps
+                        if(beatCount == 10) {
+                            measureTaps();
+                        }
+
+                        // complete test after 60 taps measured
+                        if (beatCount >= 70) {
+                            rbeTestDone();
+                        }
                     }
                 });
             }
-        }, 2000, 667);
-
-        button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if ((System.currentTimeMillis() - beat) <= 500
-                            && (beat - System.currentTimeMillis()) >= -500) {
-                        tap++;
-                    }
-                    else {
-                        tap = 0;
-                    }
-
-                    if (tap >= 10) {
-                        measureTaps();
-                    }
-                }
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    tv.setText(String.valueOf(tap));
-                }
-                return true;
-            }
-        });
+        }, 2000, rbeTarget);
     }
 
     // go back to instructions if we return to this activity
@@ -102,22 +97,61 @@ public class RBETest extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         timer.cancel();
-        toneGen.release();
+        sound.release();
         super.onDestroy();
     }
 
     private void measureTaps() {
-        button.setOnTouchListener(new View.OnTouchListener() {
+        button.setClickable(true);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    button.setPressed(true);
-                }
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    button.setPressed(false);
-                }
-                return true;
+            public void onClick(View view) {
+                rbeResult += (beat - System.currentTimeMillis());
+                rbeResult += ", ";
+                beatCount++;
             }
         });
+    }
+
+    private void rbeTestDone() {
+        timer.cancel();
+        // remove last comma
+        rbeResult = rbeResult.substring(0, rbeResult.length() - 2);
+
+        Bundle bundle = getIntent().getExtras();
+        String date = "";
+        String id = "";
+        String rveResult = "";
+        String pre1Result = "";
+        String pre2Result = "";
+        String pve1Result = "";
+        String pve2Result = "";
+        String ppe1Result = "";
+        String ppe2Result = "";
+
+        if (bundle != null) {
+            date = (String) bundle.get("bestDate");
+            id = (String) bundle.get("id");
+            rveResult = (String) bundle.get("rveResult");
+            pre1Result = (String) bundle.get("pre1Result");
+            pre2Result = (String) bundle.get("pre2Result");
+            pve1Result = (String) bundle.get("pve1Result");
+            pve2Result = (String) bundle.get("pve2Result");
+            ppe1Result = (String) bundle.get("ppe1Result");
+            ppe2Result = (String) bundle.get("ppe2Result");
+        }
+
+        Intent intent = new Intent(this, EndBEST.class);
+        intent.putExtra("bestDate", date);
+        intent.putExtra("id", id);
+        intent.putExtra("rveResult", rveResult);
+        intent.putExtra("pre1Result", pre1Result);
+        intent.putExtra("pre2Result", pre2Result);
+        intent.putExtra("pve1Result", pve1Result);
+        intent.putExtra("pve2Result", pve2Result);
+        intent.putExtra("ppe1Result", ppe1Result);
+        intent.putExtra("ppe2Result", ppe2Result);
+        intent.putExtra("rbeResult", rbeResult);
+        startActivity(intent);
     }
 }

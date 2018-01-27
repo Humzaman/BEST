@@ -1,8 +1,7 @@
 package com.best.subtasks.PPE;
 
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -16,7 +15,7 @@ import com.best.subtasks.RBE.RBEInstructions;
 public class PPE2Test extends AppCompatActivity {
 
     private Button button;
-    private ToneGenerator toneGen;
+    private SoundPool sound;
     private double time;
     private boolean done;
 
@@ -29,14 +28,15 @@ public class PPE2Test extends AppCompatActivity {
         setContentView(R.layout.activity_ppe_test);
 
         button = findViewById(R.id.ppeTestButton);
-        toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-
+        sound = new SoundPool.Builder().build();
+        final int toneId = sound.load(this, R.raw.tone1, 1);
         time = 0;
         done = false;
 
         button.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                // ensures that test ends after two presses
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     if(time == 0) {
                         time = System.currentTimeMillis();
@@ -46,11 +46,10 @@ public class PPE2Test extends AppCompatActivity {
                         done = true;
                     }
 
-                    toneGen.startTone(ToneGenerator.TONE_DTMF_1);
+                    sound.play(toneId, 1, 1, 1, 0, 1);
                     button.setPressed(true);
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP) {
-                    toneGen.stopTone();
                     button.setPressed(false);
 
                     if(done) {
@@ -71,7 +70,7 @@ public class PPE2Test extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        toneGen.release();
+        sound.release();
         super.onDestroy();
     }
 
@@ -107,8 +106,8 @@ public class PPE2Test extends AppCompatActivity {
         intent.putExtra("pre2Result", pre2Result);
         intent.putExtra("pve1Result", pve1Result);
         intent.putExtra("pve2Result", pve2Result);
-        intent.putExtra("ppe1result", ppe1Result);
-        intent.putExtra("ppe2result", ppe2Result);
+        intent.putExtra("ppe1Result", ppe1Result);
+        intent.putExtra("ppe2Result", ppe2Result);
         startActivity(intent);
     }
 }

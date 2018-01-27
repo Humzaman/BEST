@@ -2,8 +2,7 @@ package com.best.subtasks.PRE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +21,8 @@ public class PRE2Test extends AppCompatActivity {
 
     private Timer timer;
     private Button button;
-    private ToneGenerator toneGen;
+    private SoundPool sound;
+    private int toneId;
     private double time;
     private boolean done;
 
@@ -41,17 +41,18 @@ public class PRE2Test extends AppCompatActivity {
         button.setClickable(false);
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(this);
-        long preTarget = (Long.parseLong(sh.getString("prePref2", "")) * 1000) + 2000;
+        long preTarget = (Long.parseLong(sh.getString("prePref2", "53")) * 1000) + 2000;
 
+        sound = new SoundPool.Builder().build();
+        toneId = sound.load(this, R.raw.tone1, 1);
         timer = new Timer();
-        toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
         timer.schedule(new TimerTask() {
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        toneGen.startTone(ToneGenerator.TONE_DTMF_1,350);
+                        sound.play(toneId, 1, 1, 1, 0, 1);
                         button.setPressed(true);
                     }
                 });
@@ -67,14 +68,14 @@ public class PRE2Test extends AppCompatActivity {
                     }
                 });
             }
-        }, 2350);
+        }, 2150);
 
         timer.schedule(new TimerTask() {
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        toneGen.startTone(ToneGenerator.TONE_DTMF_1,350);
+                        sound.play(toneId, 1, 1, 1, 0, 1);
                         button.setPressed(true);
                     }
                 });
@@ -91,7 +92,7 @@ public class PRE2Test extends AppCompatActivity {
                     }
                 });
             }
-        }, preTarget + 350);
+        }, preTarget + 150);
     }
 
     // go back to instructions if we return to this activity
@@ -105,7 +106,7 @@ public class PRE2Test extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         timer.cancel();
-        toneGen.release();
+        sound.release();
         super.onDestroy();
     }
 
@@ -114,6 +115,7 @@ public class PRE2Test extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // ensures that test ends after two presses
                     if(time == 0) {
                         time = System.currentTimeMillis();
                     }
@@ -122,11 +124,10 @@ public class PRE2Test extends AppCompatActivity {
                         done = true;
                     }
 
-                    toneGen.startTone(ToneGenerator.TONE_DTMF_1);
+                    sound.play(toneId, 1, 1, 1, 0, 1);
                     button.setPressed(true);
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP) {
-                    toneGen.stopTone();
                     button.setPressed(false);
 
                     if(done) {

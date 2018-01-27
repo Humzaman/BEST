@@ -19,7 +19,7 @@ public class PPEInstructions extends AppCompatActivity {
         setContentView(R.layout.activity_ppe_instructions);
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(this);
-        String ppeTarget = sh.getString("ppePref1", "");
+        String ppeTarget = sh.getString("ppePref1", "23");
 
         TextView tv = findViewById(R.id.ppeTargetTextView);
         if (ppeTarget.equals("1")) {

@@ -35,6 +35,7 @@ public class RVEDone extends AppCompatActivity {
         EditText et = findViewById(R.id.rveDoneEditText);
         String rveResult = et.getText().toString();
 
+        // check if user entered results
         if (rveResult.equals("")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter time passed");
