@@ -1,13 +1,13 @@
-#Brief Estimate of Seconds Test
+# Brief Estimate of Seconds Test
 
 Chronognosis, the altered perception of passing time, is a well noted phenomenon that occurs in various neurological disorders. Currently, there is no known standardized technique for the assessment of this condition. Furthermore, experimental neuroscientists have demonstrated that time-perception underlies many other domains of brain function. In this project, I am working with researchers in the Vanderbilt University Department of Neurology to develop a simple, easy to administer assessment in the form a mobile application that will be used for both research and clinical purposes.
 
-###Permissions
+### Permissions
 Universities, Foundations, Health Professionals, Clinics, Public Health Institutes:The BEST may be used WITHOUT permission for all clinical, educational, and research purposes, WITH proper citation.
 
 Commercial Entities, Pharma: Please contact the authors.
 
-###Contact
+### Contact
 
 Ciaran Considine: Ciaran.Considine@vanderbilt.edu
 Chris Abeare: Cabeare@uwindsor.ca
