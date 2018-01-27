@@ -11,7 +11,6 @@ import android.view.View;
 import com.best.createProfile.CreateProfileActivity;
 import com.best.loadProfile.LoadProfileActivity;
 import com.best.settings.SettingsActivity;
-import com.best.subtasks.RBE.RBETest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void instructionsClick(View view) {
-        // TODO
-        Intent intent = new Intent(this, RBETest.class);
-        startActivity(intent);
+
     }
 
 

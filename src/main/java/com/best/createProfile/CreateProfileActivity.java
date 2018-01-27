@@ -1,6 +1,7 @@
 package com.best.createProfile;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.best.R;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
+import com.best.subtasks.StartBESTfromCreate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,7 +77,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     }
 
     // populates spinner items with values in passed array
-    public void populateSpinner(String[] array, Spinner spinner) {
+    private void populateSpinner(String[] array, Spinner spinner) {
         spinner.setOnItemSelectedListener(this);
         final List<String> list = new ArrayList<>(Arrays.asList(array));
 
@@ -136,7 +138,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     saveProfile();
-                    // TODO
+                    startBEST();
                 }
             });
             builder.setNegativeButton("Save Only", new DialogInterface.OnClickListener() {
@@ -154,7 +156,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     }
 
     // checks if the form is completed or not
-    public boolean formCompleted() {
+    private boolean formCompleted() {
         return !(this.idNumberEditText.getText().toString().isEmpty()
                 || this.lastNameEditText.getText().toString().trim().isEmpty()
                 || this.firstNameEditText.getText().toString().trim().isEmpty()
@@ -167,7 +169,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                 || this.dobEditText.getText().toString().trim().contains("Y"));
     }
 
-    public void saveProfile() {
+    private void saveProfile() {
         DatabaseHelper db = new DatabaseHelper(this);
         // set profile creation date and time
         String date = (new SimpleDateFormat("MM/dd/yyyy HH:mm:SSS")).format(new Date());
@@ -195,5 +197,11 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                     this.notesEditText.getText().toString().trim(),
                     date));
         }
+    }
+
+    private void startBEST() {
+        Intent intent = new Intent(this, StartBESTfromCreate.class);
+        intent.putExtra("id", this.idNumberEditText.getText().toString());
+        startActivity(intent);
     }
 }

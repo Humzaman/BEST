@@ -28,6 +28,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATION_DATE = "creationDate";
 
     // RESULTS table column names
+    private static final String RVE_TARGET = "rveTarget";
+    private static final String PRE1_TARGET = "pre1Target";
+    private static final String PRE2_TARGET = "pre2Target";
+    private static final String PVE1_TARGET = "pve1Target";
+    private static final String PVE2_TARGET = "pve2Target";
+    private static final String PPE1_TARGET = "ppe1Target";
+    private static final String PPE2_TARGET = "ppe2Target";
+    private static final String RBE_TARGET = "rbeTarget";
     private static final String RVE_RESULT = "rveResult";
     private static final String PRE1_RESULT = "pre1Result";
     private static final String PRE2_RESULT = "pre2Result";
@@ -52,11 +60,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DOB + " TEXT," + NOTES + " TEXT," + CREATION_DATE + " TEXT" + ")";
 
         String CREATE_RESULTS_TABLE = "CREATE TABLE " + TABLE_RESULTS + "("
-                + RVE_RESULT + " TEXT,"
-                + PRE1_RESULT + " TEXT," + PRE2_RESULT + " TEXT,"
-                + PVE1_RESULT + " TEXT," + PVE2_RESULT + " TEXT,"
-                + PPE1_RESULT + " TEXT," + PPE2_RESULT + " TEXT,"
-                + RBE_RESULT + " TEXT,"
+                + RVE_TARGET + " TEXT," + RVE_RESULT + " TEXT,"
+                + PRE1_TARGET + " TEXT," + PRE1_RESULT + " TEXT,"
+                + PRE2_TARGET + " TEXT," + PRE2_RESULT + " TEXT,"
+                + PVE1_TARGET + " TEXT," + PVE1_RESULT + " TEXT,"
+                + PVE2_TARGET + " TEXT," + PVE2_RESULT + " TEXT,"
+                + PPE1_TARGET + " TEXT," + PPE1_RESULT + " TEXT,"
+                + PPE2_TARGET + " TEXT," + PPE2_RESULT + " TEXT,"
+                + RBE_TARGET + " TEXT," + RBE_RESULT + " TEXT,"
                 + RESULTS_DATE + " TEXT," + RESULTS_ID + " TEXT,"
                 + "FOREIGN KEY (" + RESULTS_ID + ") REFERENCES " + TABLE_PROFILES + "(idNumber) " + ")";
 
@@ -96,13 +107,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(RVE_TARGET, results.getRveTarget());
         values.put(RVE_RESULT, results.getRveResult());
+        values.put(PRE1_TARGET, results.getPre1Target());
         values.put(PRE1_RESULT, results.getPre1Result());
+        values.put(PRE2_TARGET, results.getPre2Target());
         values.put(PRE2_RESULT, results.getPre2Result());
+        values.put(PVE1_TARGET, results.getPve1Target());
         values.put(PVE1_RESULT, results.getPve1Result());
+        values.put(PVE2_TARGET, results.getPve2Target());
         values.put(PVE2_RESULT, results.getPve2Result());
+        values.put(PPE1_TARGET, results.getPpe1Target());
         values.put(PPE1_RESULT, results.getPpe1Result());
+        values.put(PPE2_TARGET, results.getPpe2Target());
         values.put(PPE2_RESULT, results.getPpe2Result());
+        values.put(RBE_TARGET, results.getRbeTarget());
         values.put(RBE_RESULT, results.getRbeResult());
         values.put(RESULTS_DATE, results.getTestDate());
         values.put(RESULTS_ID, results.getResultsId());
@@ -146,16 +165,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Results results = new Results();
-                results.setRveResult(cursor.getString(0));
-                results.setPre1Result(cursor.getString(1));
-                results.setPre2Result(cursor.getString(2));
-                results.setPve1Result(cursor.getString(3));
-                results.setPve2Result(cursor.getString(4));
-                results.setPpe1Result(cursor.getString(5));
-                results.setPpe2Result(cursor.getString(6));
-                results.setRbeResult(cursor.getString(7));
-                results.setTestDate(cursor.getString(8));
-                results.setResultsId(cursor.getString(9));
+                results.setRveTarget(cursor.getString(0));
+                results.setRveResult(cursor.getString(1));
+                results.setPre1Target(cursor.getString(2));
+                results.setPre1Result(cursor.getString(3));
+                results.setPre2Target(cursor.getString(4));
+                results.setPre2Result(cursor.getString(5));
+                results.setPve1Target(cursor.getString(6));
+                results.setPve1Result(cursor.getString(7));
+                results.setPve2Target(cursor.getString(8));
+                results.setPve2Result(cursor.getString(9));
+                results.setPpe1Target(cursor.getString(10));
+                results.setPpe1Result(cursor.getString(11));
+                results.setPpe2Target(cursor.getColumnName(12));
+                results.setPpe2Result(cursor.getString(13));
+                results.setRbeTarget(cursor.getString(14));
+                results.setRbeResult(cursor.getString(15));
+                results.setTestDate(cursor.getString(16));
+                results.setResultsId(cursor.getString(17));
                 // Adding results to list
                 resultsList.add(results);
             } while (cursor.moveToNext());

@@ -1,7 +1,15 @@
 package com.best.database;
 
-
 public class Results {
+
+    private String rveTarget;
+    private String pre1Target;
+    private String pre2Target;
+    private String pve1Target;
+    private String pve2Target;
+    private String ppe1Target;
+    private String ppe2Target;
+    private String rbeTarget;
 
     private String rveResult;
     private String pre1Result;
@@ -16,12 +24,25 @@ public class Results {
 
     public Results() {}
 
-    public Results(String rveResult,
+    public Results(String rveTarget,
+                   String pre1Target, String pre2Target,
+                   String pve1Target, String pve2Target,
+                   String ppe1Target, String ppe2Target,
+                   String rbeTarget,
+                   String rveResult,
                    String pre1Result, String pre2Result,
                    String pve1Result, String pve2Result,
                    String ppe1Result, String ppe2Result,
                    String rbeResult,
                    String testDate, String resultsId) {
+        this.rveTarget = rveTarget;
+        this.pre1Target = pre1Target;
+        this.pre2Target = pre2Target;
+        this.pve1Target = pve1Target;
+        this.pve2Target = pve2Target;
+        this.ppe1Target = ppe1Target;
+        this.ppe2Target = ppe2Target;
+        this.rbeTarget = rbeTarget;
         this.rveResult = rveResult;
         this.pre1Result = pre1Result;
         this.pre2Result = pre2Result;
@@ -32,6 +53,70 @@ public class Results {
         this.rbeResult = rbeResult;
         this.testDate = testDate;
         this.resultsId = resultsId;
+    }
+
+    public String getRveTarget() {
+        return rveTarget;
+    }
+
+    public void setRveTarget(String rveTarget) {
+        this.rveTarget = rveTarget;
+    }
+
+    public String getPre1Target() {
+        return pre1Target;
+    }
+
+    public void setPre1Target(String pre1Target) {
+        this.pre1Target = pre1Target;
+    }
+
+    public String getPre2Target() {
+        return pre2Target;
+    }
+
+    public void setPre2Target(String pre2Target) {
+        this.pre2Target = pre2Target;
+    }
+
+    public String getPve1Target() {
+        return pve1Target;
+    }
+
+    public void setPve1Target(String pve1Target) {
+        this.pve1Target = pve1Target;
+    }
+
+    public String getPve2Target() {
+        return pve2Target;
+    }
+
+    public void setPve2Target(String pve2Target) {
+        this.pve2Target = pve2Target;
+    }
+
+    public String getPpe1Target() {
+        return ppe1Target;
+    }
+
+    public void setPpe1Target(String ppe1Target) {
+        this.ppe1Target = ppe1Target;
+    }
+
+    public String getPpe2Target() {
+        return ppe2Target;
+    }
+
+    public void setPpe2Target(String ppe2Target) {
+        this.ppe2Target = ppe2Target;
+    }
+
+    public String getRbeTarget() {
+        return rbeTarget;
+    }
+
+    public void setRbeTarget(String rbeTarget) {
+        this.rbeTarget = rbeTarget;
     }
 
     public String getRveResult() {

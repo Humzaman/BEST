@@ -44,7 +44,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
             }
 
             textView.append("Education Level: " + profile.getEducationLevel() + " years\n");
-            textView.append("DOB: " + profile.getDob() + "\n");
+            textView.append("DoB: " + profile.getDob() + "\n");
             textView.append("Notes: " + profile.getNotes() + "\n");
             textView.append("Profile Creation Date: " + profile.getCreationDate() + "\n");
         }
@@ -55,5 +55,4 @@ public class ProfileInfoActivity extends AppCompatActivity {
         intent.putExtra("id", id);
         startActivity(intent);
     }
-
 }

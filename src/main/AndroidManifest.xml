@@ -54,6 +54,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
+            android:name=".subtasks.StartBESTfromCreate"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity
             android:name=".subtasks.RVE.RVEInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -148,7 +153,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-        <activity android:name=".subtasks.EndBEST">
+        <activity
+            android:name=".subtasks.EndBEST"
+            android:label="Results"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
