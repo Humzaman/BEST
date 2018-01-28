@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.best.AdditionalInfo">
+    tools:context="com.best.InstructionsActivity">
 
     <TextView
-        android:id="@+id/additionalInfoTextView"
+        android:id="@+id/InstructionsTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:autoLink="email"
@@ -17,11 +17,11 @@
         android:paddingRight="8dp"
         android:scrollbarStyle="outsideInset"
         android:scrollbars="vertical"
-        android:text="@string/additionalInfoText"
+        android:text="@string/Instructions"
         android:textColor="@android:color/black"
         android:textColorLink="@android:color/holo_red_light"
         android:textIsSelectable="true"
-        android:textSize="14sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

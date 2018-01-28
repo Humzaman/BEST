@@ -37,7 +37,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_info);
 
-        db = new DatabaseHelper(this);
+        db = DatabaseHelper.getInstance(this);
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
@@ -83,7 +83,13 @@ public class ProfileInfoActivity extends AppCompatActivity {
         intent.putExtra("id", id);
         startActivity(intent);
     }
-    
+
+    public void editProfileInfoClick(MenuItem item) {
+        Intent intent = new Intent(this, EditProfileActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
     public void deleteProfileInfoClick(MenuItem item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete Profile");

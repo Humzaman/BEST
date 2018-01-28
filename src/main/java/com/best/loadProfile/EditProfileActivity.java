@@ -1,4 +1,4 @@
-package com.best.createProfile;
+package com.best.loadProfile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,9 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.best.R;
+import com.best.createProfile.DateInputMask;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
-import com.best.subtasks.StartBESTfromCreate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,10 +28,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class CreateProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private DatabaseHelper db;
     // all the fields in the profile creation form
+    private DatabaseHelper db;
+    private String id;
     private EditText idNumberEditText;
     private EditText lastNameEditText;
     private EditText firstNameEditText;
@@ -44,17 +45,16 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_profile);
+        setContentView(R.layout.activity_edit_profile);
 
-        db = DatabaseHelper.getInstance(this);
-        this.idNumberEditText = findViewById(R.id.idNumberEditText);
-        this.lastNameEditText = findViewById(R.id.lastNameEditText);
-        this.firstNameEditText = findViewById(R.id.firstNameEditText);
-        this.genderSpinner = findViewById(R.id.genderSpinner);
-        this.handednessSpinner = findViewById(R.id.handednessSpinner);
-        this.educationSpinner = findViewById(R.id.educationSpinner);
-        this.dobEditText = findViewById(R.id.dobEditText);
-        this.notesEditText = findViewById(R.id.notesEditText);
+        this.idNumberEditText = findViewById(R.id.idNumberEditText2);
+        this.lastNameEditText = findViewById(R.id.lastNameEditText2);
+        this.firstNameEditText = findViewById(R.id.firstNameEditText2);
+        this.genderSpinner = findViewById(R.id.genderSpinner2);
+        this.handednessSpinner = findViewById(R.id.handednessSpinner2);
+        this.educationSpinner = findViewById(R.id.educationSpinner2);
+        this.dobEditText = findViewById(R.id.dobEditText2);
+        this.notesEditText = findViewById(R.id.notesEditText2);
 
         // options to be shown in spinners
         String[] genderArray = {"Gender", "Male", "Female"};
@@ -67,6 +67,54 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
         populateSpinner(handednessArray, this.handednessSpinner);
         populateSpinner(educationArray, this.educationSpinner);
         new DateInputMask(this.dobEditText);
+
+        fillProfile();
+    }
+
+    private void fillProfile() {
+        db = DatabaseHelper.getInstance(this);
+        this.id = "";
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            this.id = (String) bundle.get("id");
+        }
+
+        Profile profile = db.getProfile(id);
+
+        this.idNumberEditText.setText(profile.getIdNumber());
+        this.lastNameEditText.setText(profile.getLastName());
+        this.firstNameEditText.setText(profile.getFirstName());
+
+
+        switch (profile.getGender()) {
+            case "Male":
+                this.genderSpinner.setSelection(1);
+                break;
+            case "Female":
+                this.genderSpinner.setSelection(2);
+                break;
+            default:
+                break;
+        }
+
+        switch (profile.getHandedness()) {
+            case "Right":
+                this.handednessSpinner.setSelection(1);
+                break;
+            case "Left":
+                this.handednessSpinner.setSelection(2);
+                break;
+            case "Ambi":
+                this.handednessSpinner.setSelection(3);
+                break;
+            default:
+                break;
+        }
+
+        this.educationSpinner.setSelection(Integer.parseInt(profile.getEducationLevel()) - 7);
+        this.dobEditText.setText(profile.getDob());
+        this.notesEditText.setText(profile.getNotes());
     }
 
     // add the "Save Profile" button to the menu bar
@@ -74,7 +122,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.create_profile_actions, menu);
+        inflater.inflate(R.menu.edit_profile_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -121,7 +169,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     }
 
     // when the "Save Profile" button (in the menu bar) is clicked
-    public void createProfileSaveClick(MenuItem item) {
+    public void editProfileSaveClick(MenuItem item) {
         if (!formCompleted()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Incomplete Form");
@@ -132,7 +180,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-        else if (db.profileExists(idNumberEditText.getText().toString())) {
+        else if (idExists()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("ID Taken");
             builder.setMessage("There is already a profile with that ID. Please enter a different ID.");
@@ -149,27 +197,33 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Save Profile");
+            builder.setTitle("Save Changes");
 
-            builder.setPositiveButton("Save and Administer BEST", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    saveProfile();
-                    startBEST();
+                    saveChanges();
                 }
             });
-            builder.setNegativeButton("Save Only", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    saveProfile();
-                    finish();
+                    // do nothing
                 }
             });
-            builder.setNeutralButton("Cancel", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+    }
+
+    // check if profile id exists in database
+    private boolean idExists() {
+        // if we're not changing the id, it's fine
+        if (this.id.equals(this.idNumberEditText.getText().toString())) {
+            return false;
+        }
+        else return db.profileExists(this.idNumberEditText.getText().toString());
     }
 
     // checks if the form is completed or not
@@ -186,13 +240,14 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                 || this.dobEditText.getText().toString().trim().contains("Y"));
     }
 
-    private void saveProfile() {
+    private void saveChanges() {
+        Profile profile;
         // set profile creation date and time
         String date = (new SimpleDateFormat("MM/dd/yyyy HH:mm:SSS")).format(new Date());
 
         // checks whether to trim "dextrous" or "-handed" from the handedness value
         if (this.handednessSpinner.getSelectedItemPosition() == 3) {
-            db.addProfile(new Profile(this.idNumberEditText.getText().toString(),
+            profile = new Profile(this.idNumberEditText.getText().toString(),
                     this.lastNameEditText.getText().toString().trim(),
                     this.firstNameEditText.getText().toString().trim(),
                     this.genderSpinner.getSelectedItem().toString(),
@@ -200,10 +255,12 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                     this.educationSpinner.getSelectedItem().toString().replace(" years", ""),
                     this.dobEditText.getText().toString(),
                     this.notesEditText.getText().toString().trim(),
-                    date));
+                    date);
+
+
         }
         else {
-            db.addProfile(new Profile(this.idNumberEditText.getText().toString(),
+            profile = new Profile(this.idNumberEditText.getText().toString(),
                     this.lastNameEditText.getText().toString().trim(),
                     this.firstNameEditText.getText().toString().trim(),
                     this.genderSpinner.getSelectedItem().toString(),
@@ -211,13 +268,14 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                     this.educationSpinner.getSelectedItem().toString().replace(" years", ""),
                     this.dobEditText.getText().toString(),
                     this.notesEditText.getText().toString().trim(),
-                    date));
+                    date);
         }
-    }
 
-    private void startBEST() {
-        Intent intent = new Intent(this, StartBESTfromCreate.class);
-        intent.putExtra("id", this.idNumberEditText.getText().toString());
+        db.updateProfile(this.id, profile);
+
+        Intent intent = new Intent(this, ProfileInfoActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("profileId",this.idNumberEditText.getText().toString());
         startActivity(intent);
     }
 }

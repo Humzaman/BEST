@@ -19,7 +19,7 @@ public class LoadProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_profile);
 
-        DatabaseHelper db = new DatabaseHelper(this);
+        DatabaseHelper db = DatabaseHelper.getInstance(this);
 
         // create and fill the recycler view with profile cards
         recyclerView = findViewById(R.id.loadProfileRecyclerView);
@@ -28,5 +28,11 @@ public class LoadProfileActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ProfileCardRecyclerAdapter(db.getAllProfiles());
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onRestart() {
+        this.recreate();
+        super.onRestart();
     }
 }

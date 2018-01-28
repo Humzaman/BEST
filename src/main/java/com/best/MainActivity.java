@@ -49,21 +49,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void instructionsClick(View view) {
-
+        Intent intent = new Intent(this, InstructionsActivity.class);
+        startActivity(intent);
     }
 
+    public void exportClick(View view) {
 
-
-
-    /*
-    public void testClick(View view) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String x = sharedPref.getString("rvePref", "");
-
-        Button b = findViewById(R.id.loadprofileButton);
-        b.setText(x);
     }
-    */
 
 
 }

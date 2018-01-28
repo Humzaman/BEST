@@ -275,7 +275,7 @@ public class EndBEST extends AppCompatActivity {
     }
 
     private void saveResults() {
-        DatabaseHelper db = new DatabaseHelper(this);
+        DatabaseHelper db = DatabaseHelper.getInstance(this);
         Results results = new Results(rveTarget,
                 preTarget1, preTarget2,
                 pveTarget1, pveTarget2,

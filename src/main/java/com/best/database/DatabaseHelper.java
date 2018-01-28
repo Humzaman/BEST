@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    private static DatabaseHelper mInstance = null;
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "BESTDatabase";
     private static final String TABLE_PROFILES = "profiles";
@@ -47,7 +48,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String RESULTS_DATE = "resultsDate";
     private static final String RESULTS_ID = "resultsId";
 
-    public DatabaseHelper(Context context) {
+    public static DatabaseHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        //don't accidentally leak an Activity's context.
+        if (mInstance == null) {
+            mInstance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return mInstance;
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -153,6 +163,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return profile;
     }
 
+    public boolean profileExists(String id) {
+        String selectQuery = "SELECT * FROM " + TABLE_PROFILES + " WHERE " + ID_NUMBER + " = " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            cursor.close();
+            return true;
+        }
+        else {
+            cursor.close();
+            return false;
+        }
+    }
+
     public List<Results> getResults(String id) {
         List<Results> resultsList = new ArrayList<>();
 
@@ -239,7 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Updating single profile
-    public int updateProfile(Profile profile) {
+    public void updateProfile(String id, Profile profile) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -253,9 +279,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(NOTES, profile.getNotes());
         values.put(CREATION_DATE, profile.getCreationDate());
 
-        // updating row
-        return db.update(TABLE_PROFILES, values, ID_NUMBER + " = ?",
-                new String[] { String.valueOf(profile.getIdNumber()) });
+        ContentValues valuesR = new ContentValues();
+        valuesR.put(RESULTS_ID, profile.getIdNumber());
+
+        // updating rows
+        db.update(TABLE_RESULTS, valuesR, RESULTS_ID + " = ?",
+                new String[] { String.valueOf(id) });
+        db.update(TABLE_PROFILES, values, ID_NUMBER + " = ?",
+                new String[] { String.valueOf(id) });
     }
 
     // Deleting single profile
