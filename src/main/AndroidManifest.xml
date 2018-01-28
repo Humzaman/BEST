@@ -158,6 +158,8 @@
             android:label="Results"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".loadProfile.ProfileInfoViewResult">
+        </activity>
     </application>
 
 </manifest>

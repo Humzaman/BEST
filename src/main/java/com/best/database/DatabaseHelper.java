@@ -177,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 results.setPve2Result(cursor.getString(9));
                 results.setPpe1Target(cursor.getString(10));
                 results.setPpe1Result(cursor.getString(11));
-                results.setPpe2Target(cursor.getColumnName(12));
+                results.setPpe2Target(cursor.getString(12));
                 results.setPpe2Result(cursor.getString(13));
                 results.setRbeTarget(cursor.getString(14));
                 results.setRbeResult(cursor.getString(15));

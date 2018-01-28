@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_administer_best"
+        android:onClick="administerBESTClick"
+        android:title="Administer BEST"
+        android:icon="@drawable/ic_assignment_white_24dp"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_profile_info_edit"
+
+        android:title="Edit"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_profile_info_delete"
+        android:onClick="deleteProfileInfoClick"
+        android:title="Delete"
+        app:showAsAction="never"/>
+
+</menu>
