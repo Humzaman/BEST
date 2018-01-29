@@ -220,6 +220,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return resultsList;
     }
 
+    public List<Results> getAllResults() {
+        List<Results> resultsList = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_RESULTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Results results = new Results();
+                results.setRveTarget(cursor.getString(0));
+                results.setRveResult(cursor.getString(1));
+                results.setPre1Target(cursor.getString(2));
+                results.setPre1Result(cursor.getString(3));
+                results.setPre2Target(cursor.getString(4));
+                results.setPre2Result(cursor.getString(5));
+                results.setPve1Target(cursor.getString(6));
+                results.setPve1Result(cursor.getString(7));
+                results.setPve2Target(cursor.getString(8));
+                results.setPve2Result(cursor.getString(9));
+                results.setPpe1Target(cursor.getString(10));
+                results.setPpe1Result(cursor.getString(11));
+                results.setPpe2Target(cursor.getString(12));
+                results.setPpe2Result(cursor.getString(13));
+                results.setRbeTarget(cursor.getString(14));
+                results.setRbeResult(cursor.getString(15));
+                results.setTestDate(cursor.getString(16));
+                results.setResultsId(cursor.getString(17));
+                // Adding results to list
+                resultsList.add(results);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        // return results list
+        return resultsList;
+    }
+
+
     // Getting All Profiles
     public List<Profile> getAllProfiles() {
         List<Profile> profileList = new ArrayList<>();

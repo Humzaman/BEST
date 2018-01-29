@@ -22,10 +22,8 @@ import com.best.createProfile.DateInputMask;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -41,6 +39,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     private Spinner educationSpinner;
     private EditText dobEditText;
     private EditText notesEditText;
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +84,8 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         this.idNumberEditText.setText(profile.getIdNumber());
         this.lastNameEditText.setText(profile.getLastName());
         this.firstNameEditText.setText(profile.getFirstName());
+
+        this.date = profile.getCreationDate();
 
 
         switch (profile.getGender()) {
@@ -242,8 +243,6 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
 
     private void saveChanges() {
         Profile profile;
-        // set profile creation date and time
-        String date = (new SimpleDateFormat("MM/dd/yyyy HH:mm:SSS")).format(new Date());
 
         // checks whether to trim "dextrous" or "-handed" from the handedness value
         if (this.handednessSpinner.getSelectedItemPosition() == 3) {
