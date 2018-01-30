@@ -3,6 +3,7 @@ package com.best.loadProfile;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,15 +34,18 @@ public class ProfileCardRecyclerAdapter extends RecyclerView.Adapter<ProfileCard
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String name = profiles.get(position).getName();
-        String id = "ID#: " + profiles.get(position).getIdNumber();
-        String dob = "DoB: " + profiles.get(position).getDob();
-        String lastExam = "Last Exam: " + profiles.get(position).getLastExamination();
+        String id = "<b>ID#: </b>";
+        String dob = "<b>DoB: </b>";
+        String lastExam = "<b>Last Exam: </b>";
 
         holder.cardView.setTag(profiles.get(position).getIdNumber());
         holder.NameTextView.setText(name);
-        holder.IdTextView.setText(id);
-        holder.DobTextView.setText(dob);
-        holder.LastExamTextView.setText(lastExam);
+        holder.IdTextView.setText(Html.fromHtml(id));
+        holder.IdTextView.append(profiles.get(position).getIdNumber());
+        holder.DobTextView.setText(Html.fromHtml(dob));
+        holder.DobTextView.append(profiles.get(position).getDob());
+        holder.LastExamTextView.setText(Html.fromHtml(lastExam));
+        holder.LastExamTextView.append(profiles.get(position).getLastExamination());
     }
 
     @Override
