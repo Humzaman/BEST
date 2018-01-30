@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.best.MainActivity;
 import com.best.R;
 import com.best.database.DatabaseHelper;
+import com.best.database.Profile;
 import com.best.database.Results;
 
 public class EndBEST extends AppCompatActivity {
@@ -288,7 +289,11 @@ public class EndBEST extends AppCompatActivity {
                 rbeResult,
                 date, id);
 
+        Profile profile = db.getProfile(id);
+        profile.setLastExamination(date);
+
         db.addResults(results);
+        db.updateProfile(id, profile);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

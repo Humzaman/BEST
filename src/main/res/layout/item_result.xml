@@ -35,7 +35,7 @@
             android:text="Examination Date: 01/01/1900"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            />
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

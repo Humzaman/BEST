@@ -200,7 +200,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                     this.educationSpinner.getSelectedItem().toString().replace(" years", ""),
                     this.dobEditText.getText().toString(),
                     this.notesEditText.getText().toString().trim(),
-                    date));
+                    date, "N/A"));
         }
         else {
             db.addProfile(new Profile(this.idNumberEditText.getText().toString(),
@@ -211,7 +211,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                     this.educationSpinner.getSelectedItem().toString().replace(" years", ""),
                     this.dobEditText.getText().toString(),
                     this.notesEditText.getText().toString().trim(),
-                    date));
+                    date, "N/A"));
         }
     }
 

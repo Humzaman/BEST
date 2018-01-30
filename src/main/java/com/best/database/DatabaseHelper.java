@@ -11,8 +11,8 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static DatabaseHelper mInstance = null;
-    private static final int DATABASE_VERSION = 1;
+    private static DatabaseHelper DBHinstance = null;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "BESTDatabase";
     private static final String TABLE_PROFILES = "profiles";
     private static final String TABLE_RESULTS = "results";
@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DOB = "dob";
     private static final String NOTES = "notes";
     private static final String CREATION_DATE = "creationDate";
+    private static final String LAST_EXAM_DATE = "lastExamination";
 
     // RESULTS table column names
     private static final String RVE_TARGET = "rveTarget";
@@ -51,10 +52,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static DatabaseHelper getInstance(Context context) {
         // Use the application context, which will ensure that you
         //don't accidentally leak an Activity's context.
-        if (mInstance == null) {
-            mInstance = new DatabaseHelper(context.getApplicationContext());
+        if (DBHinstance == null) {
+            DBHinstance = new DatabaseHelper(context.getApplicationContext());
         }
-        return mInstance;
+        return DBHinstance;
     }
 
     private DatabaseHelper(Context context) {
@@ -67,7 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ID_NUMBER + " TEXT PRIMARY KEY," + LAST_NAME + " TEXT,"
                 + FIRST_NAME + " TEXT," + GENDER + " TEXT,"
                 + HANDEDNESS + " TEXT," + EDUCATION_LEVEL + " TEXT,"
-                + DOB + " TEXT," + NOTES + " TEXT," + CREATION_DATE + " TEXT" + ")";
+                + DOB + " TEXT," + NOTES + " TEXT," + CREATION_DATE + " TEXT,"
+                + LAST_EXAM_DATE + " TEXT" + ")";
 
         String CREATE_RESULTS_TABLE = "CREATE TABLE " + TABLE_RESULTS + "("
                 + RVE_TARGET + " TEXT," + RVE_RESULT + " TEXT,"
@@ -107,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DOB, profile.getDob());
         values.put(NOTES, profile.getNotes());
         values.put(CREATION_DATE, profile.getCreationDate());
+        values.put(LAST_EXAM_DATE, profile.getLastExamination());
 
         // Inserting Row
         db.insert(TABLE_PROFILES, null, values);
@@ -147,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_PROFILES, new String[] {ID_NUMBER,
                         LAST_NAME, FIRST_NAME, GENDER, HANDEDNESS,
-                        EDUCATION_LEVEL, DOB, NOTES, CREATION_DATE}, ID_NUMBER + "=?",
+                        EDUCATION_LEVEL, DOB, NOTES, CREATION_DATE, LAST_EXAM_DATE}, ID_NUMBER + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -155,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Profile profile = new Profile(cursor.getString(0), cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getString(5), cursor.getString(6), cursor.getString(7),
-                cursor.getString(8));
+                cursor.getString(8), cursor.getString(9));
 
         cursor.close();
 
@@ -284,6 +287,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 profile.setDob(cursor.getString(6));
                 profile.setNotes(cursor.getString(7));
                 profile.setCreationDate(cursor.getString(8));
+                profile.setLastExamination(cursor.getString(9));
                 // Adding profile to list
                 profileList.add(profile);
             } while (cursor.moveToNext());
@@ -320,6 +324,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DOB, profile.getDob());
         values.put(NOTES, profile.getNotes());
         values.put(CREATION_DATE, profile.getCreationDate());
+        values.put(LAST_EXAM_DATE, profile.getLastExamination());
 
         ContentValues valuesR = new ContentValues();
         valuesR.put(RESULTS_ID, profile.getIdNumber());

@@ -34,12 +34,14 @@ public class ProfileCardRecyclerAdapter extends RecyclerView.Adapter<ProfileCard
     public void onBindViewHolder(ViewHolder holder, int position) {
         String name = profiles.get(position).getName();
         String id = "ID#: " + profiles.get(position).getIdNumber();
-        String dob = "DOB: " + profiles.get(position).getDob();
+        String dob = "DoB: " + profiles.get(position).getDob();
+        String lastExam = "Last Exam: " + profiles.get(position).getLastExamination();
 
         holder.cardView.setTag(profiles.get(position).getIdNumber());
         holder.NameTextView.setText(name);
         holder.IdTextView.setText(id);
         holder.DobTextView.setText(dob);
+        holder.LastExamTextView.setText(lastExam);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class ProfileCardRecyclerAdapter extends RecyclerView.Adapter<ProfileCard
         TextView NameTextView;
         TextView IdTextView;
         TextView DobTextView;
+        TextView LastExamTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +62,7 @@ public class ProfileCardRecyclerAdapter extends RecyclerView.Adapter<ProfileCard
             NameTextView = itemView.findViewById(R.id.profileNameTextView);
             IdTextView = itemView.findViewById(R.id.profileIdTextView);
             DobTextView = itemView.findViewById(R.id.profileDOBTextView);
+            LastExamTextView = itemView.findViewById(R.id.profileLastExamTextView);
 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

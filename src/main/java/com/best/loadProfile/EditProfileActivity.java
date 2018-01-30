@@ -40,6 +40,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     private EditText dobEditText;
     private EditText notesEditText;
     private String date;
+    private String lastExamination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         this.firstNameEditText.setText(profile.getFirstName());
 
         this.date = profile.getCreationDate();
-
+        this.lastExamination = profile.getLastExamination();
 
         switch (profile.getGender()) {
             case "Male":
@@ -254,7 +255,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     this.educationSpinner.getSelectedItem().toString().replace(" years", ""),
                     this.dobEditText.getText().toString(),
                     this.notesEditText.getText().toString().trim(),
-                    date);
+                    this.date, this.lastExamination);
 
 
         }
@@ -267,7 +268,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     this.educationSpinner.getSelectedItem().toString().replace(" years", ""),
                     this.dobEditText.getText().toString(),
                     this.notesEditText.getText().toString().trim(),
-                    date);
+                    this.date, this.lastExamination);
         }
 
         db.updateProfile(this.id, profile);

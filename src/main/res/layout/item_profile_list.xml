@@ -31,7 +31,8 @@
             android:layout_marginLeft="5dp"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:text="Last, First"/>
 
         <TextView
             android:id="@+id/profileIdTextView"
@@ -39,14 +40,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="5dp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:text="ID#: 123456789"/>
 
-        <TextView
-            android:id="@+id/profileDOBTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textColor="@android:color/black"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/profileDOBTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@android:color/black"
+                android:text="DoB: 01/01/1900"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/profileLastExamTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@android:color/black"
+                android:text="Last Exam: 01/01/1900 01:01:012"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

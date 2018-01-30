@@ -11,13 +11,14 @@ public class Profile {
     private String dob;
     private String notes;
     private String creationDate;
+    private String lastExamination;
 
     // empty constructor
     public Profile() {}
 
     public Profile(String idNumber, String lastName, String firstName,
                    String gender, String handedness, String educationLevel,
-                   String dob, String notes, String creationDate) {
+                   String dob, String notes, String creationDate, String lastExamination) {
         this.idNumber = idNumber;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -27,6 +28,7 @@ public class Profile {
         this.dob = dob;
         this.notes = notes;
         this.creationDate = creationDate;
+        this.lastExamination = lastExamination;
     }
 
     public String getIdNumber() {
@@ -103,5 +105,13 @@ public class Profile {
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getLastExamination() {
+        return lastExamination;
+    }
+
+    public void setLastExamination(String lastExamination) {
+        this.lastExamination = lastExamination;
     }
 }
