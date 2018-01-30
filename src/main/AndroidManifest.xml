@@ -175,13 +175,11 @@
         <activity
             android:name=".loadProfile.ProfileInfoViewResult"
             android:label="Results"
-            android:parentActivityName=".loadProfile.ProfileInfoActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".loadProfile.EditProfileActivity"
             android:label="Edit Profile"
-            android:parentActivityName=".loadProfile.ProfileInfoActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
