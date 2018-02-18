@@ -188,7 +188,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
 
     private void saveProfile() {
         // set profile creation date and time
-        String date = (new SimpleDateFormat("MM/dd/yyyy HH:mm:SSS")).format(new Date());
+        String date = (new SimpleDateFormat("MM/dd/yyyy HH:mm")).format(new Date());
 
         // checks whether to trim "dextrous" or "-handed" from the handedness value
         if (this.handednessSpinner.getSelectedItemPosition() == 3) {
@@ -218,6 +218,15 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     private void startBEST() {
         Intent intent = new Intent(this, StartBESTfromCreate.class);
         intent.putExtra("id", this.idNumberEditText.getText().toString());
+        intent.putExtra("bestDate", (new SimpleDateFormat("MM/dd/yyyy HH:mm")).format(new Date()));
+        intent.putExtra("rveResult", "N/A");
+        intent.putExtra("pre1Result", "N/A");
+        intent.putExtra("pre2Result", "N/A");
+        intent.putExtra("pve1Result", "N/A");
+        intent.putExtra("pve2Result", "N/A");
+        intent.putExtra("ppe1Result", "N/A");
+        intent.putExtra("ppe2Result", "N/A");
+        intent.putExtra("rbeResult", "N/A");
         startActivity(intent);
     }
 }

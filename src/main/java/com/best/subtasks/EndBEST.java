@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -19,6 +20,10 @@ import com.best.R;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
 import com.best.database.Results;
+
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
 
 public class EndBEST extends AppCompatActivity {
 
@@ -46,10 +51,15 @@ public class EndBEST extends AppCompatActivity {
     private String ppe2Result;
     private String rbeResult;
 
+    private String rbeMean;
+    private String rbeSD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_best);
+
+        setupActionBar();
 
         this.textView = findViewById(R.id.EndResultsTextView);
         this.textView.setMovementMethod(new ScrollingMovementMethod());
@@ -87,9 +97,74 @@ public class EndBEST extends AppCompatActivity {
             this.ppe1Result = (String) bundle.get("ppe1Result");
             this.ppe2Result = (String) bundle.get("ppe2Result");
             this.rbeResult = (String) bundle.get("rbeResult");
+
+            if (this.rbeResult.equals("N/A")) {
+                this.rbeMean = "N/A";
+                this.rbeSD = "N/A";
+            }
+            else {
+                calculateMeanAndSD();
+            }
         }
 
         showResults();
+    }
+
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                previous();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void previous() {
+        Bundle bundle = getIntent().getExtras();
+        String date = "";
+        String id = "";
+        String rveResult = "";
+        String pre1Result = "";
+        String pre2Result = "";
+        String pve1Result = "";
+        String pve2Result = "";
+        String ppe1Result = "";
+        String ppe2Result = "";
+        String rbeResult = "";
+
+        if (bundle != null) {
+            date = (String) bundle.get("bestDate");
+            id = (String) bundle.get("id");
+            rveResult = (String) bundle.get("rveResult");
+            pre1Result = (String) bundle.get("pre1Result");
+            pre2Result = (String) bundle.get("pre2Result");
+            pve1Result = (String) bundle.get("pve1Result");
+            pve2Result = (String) bundle.get("pve2Result");
+            ppe1Result = (String) bundle.get("ppe1Result");
+            ppe2Result = (String) bundle.get("ppe2Result");
+            rbeResult = (String) bundle.get("rbeResult");
+        }
+
+        Intent intent = new Intent(this, BESTComplete.class);
+        intent.putExtra("bestDate", date);
+        intent.putExtra("id", id);
+        intent.putExtra("rveResult", rveResult);
+        intent.putExtra("pre1Result", pre1Result);
+        intent.putExtra("pre2Result", pre2Result);
+        intent.putExtra("pve1Result", pve1Result);
+        intent.putExtra("pve2Result", pve2Result);
+        intent.putExtra("ppe1Result", ppe1Result);
+        intent.putExtra("ppe2Result", ppe2Result);
+        intent.putExtra("rbeResult", rbeResult);
+        startActivity(intent);
     }
 
     // add save and delete icons
@@ -101,10 +176,60 @@ public class EndBEST extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stop BEST");
+        builder.setMessage("Are you sure you want to stop administering this BEST?\n\nResults will not be saved!");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                stopBEST();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // do nothing
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void stopBEST() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    private void calculateMeanAndSD() {
+        List<String> rbeItems = Arrays.asList(this.rbeResult.split(","));
+
+        // calculate mean
+        int meanSum = 0;
+
+        for (String i : rbeItems) {
+            meanSum += Integer.parseInt(i.trim());
+        }
+
+        double mean = meanSum / rbeItems.size();
+        this.rbeMean = String.valueOf((new DecimalFormat("#.#")).format(mean));
+
+        // calculate standard deviation
+        double sdSum = 0.0;
+
+        for (String j : rbeItems) {
+            sdSum += ((Integer.parseInt(j.trim()) - mean) * (Integer.parseInt(j.trim()) - mean));
+        }
+
+        this.rbeSD = String.valueOf((new DecimalFormat("#.#")).format(Math.sqrt(sdSum / rbeItems.size())));
+    }
+
     private void showResults() {
         String id = "<b>Examinee ID#: </b>" + this.id;
         String date = "<b>Examination Date: </b>" + this.date;
-
 
         String rveTitle = "<b><big>Retrospective Verbal Estimate</big></b>";
         String rveTarget;
@@ -116,9 +241,10 @@ public class EndBEST extends AppCompatActivity {
         String rveResult;
         if (this.rveResult.equals("1"))
             rveResult = "<b>RVE Result: </b>" + this.rveResult + " second";
+        else if (this.rveResult.equals("N/A"))
+            rveResult = "<b>RVE Result: </b>" + this.rveResult;
         else
             rveResult = "<b>RVE Result: </b>" + this.rveResult + " seconds";
-
 
         String preTitle = "<b><big>Prospective Reproduction Estimate</big></b>";
         String preTarget1;
@@ -130,6 +256,8 @@ public class EndBEST extends AppCompatActivity {
         String pre1Result;
         if (this.pre1Result.equals("1"))
             pre1Result = "<b>PRE 1 Result: </b>" + this.pre1Result + " second";
+        else if (this.pre1Result.equals("N/A"))
+            pre1Result = "<b>PRE 1 Result: </b>" + this.pre1Result;
         else
             pre1Result = "<b>PRE 1 Result: </b>" + this.pre1Result + " seconds";
 
@@ -142,6 +270,8 @@ public class EndBEST extends AppCompatActivity {
         String pre2Result;
         if (this.pre2Result.equals("1"))
             pre2Result = "<b>PRE 2 Result: </b>" + this.pre2Result + " second";
+        else if (this.pre2Result.equals("N/A"))
+            pre2Result = "<b>PRE 2 Result: </b>" + this.pre2Result;
         else
             pre2Result = "<b>PRE 2 Result: </b>" + this.pre2Result + " seconds";
 
@@ -155,6 +285,8 @@ public class EndBEST extends AppCompatActivity {
         String pve1Result;
         if (this.pve1Result.equals("1"))
             pve1Result = "<b>PVE 1 Result: </b>" + this.pve1Result + " second";
+        else if (this.pve1Result.equals("N/A"))
+            pve1Result = "<b>PVE 1 Result: </b>" + this.pve1Result;
         else
             pve1Result = "<b>PVE 1 Result: </b>" + this.pve1Result + " seconds";
 
@@ -167,6 +299,8 @@ public class EndBEST extends AppCompatActivity {
         String pve2Result;
         if (this.pve2Result.equals("1"))
             pve2Result = "<b>PVE 2 Result: </b>" + this.pve2Result + " second";
+        else if (this.pve2Result.equals("N/A"))
+            pve2Result = "<b>PVE 2 Result: </b>" + this.pve2Result;
         else
             pve2Result = "<b>PVE 2 Result: </b>" + this.pve2Result + " seconds";
 
@@ -180,6 +314,8 @@ public class EndBEST extends AppCompatActivity {
         String ppe1Result;
         if (this.ppe1Result.equals("1"))
             ppe1Result = "<b>PPE 1 Result: </b>" + this.ppe1Result + " second";
+        else if (this.ppe1Result.equals("N/A"))
+            ppe1Result = "<b>PPE 1 Result: </b>" + this.ppe1Result;
         else
             ppe1Result = "<b>PPE 1 Result: </b>" + this.ppe1Result + " seconds";
 
@@ -192,6 +328,8 @@ public class EndBEST extends AppCompatActivity {
         String ppe2Result;
         if (this.ppe2Result.equals("1"))
             ppe2Result = "<b>PPE 2 Result: </b>" + this.ppe2Result + " second";
+        else if (this.ppe2Result.equals("N/A"))
+            ppe2Result = "<b>PPE 2 Result: </b>" + this.ppe2Result;
         else
             ppe2Result = "<b>PPE 2 Result: </b>" + this.ppe2Result + " seconds";
 
@@ -202,6 +340,8 @@ public class EndBEST extends AppCompatActivity {
         else
             rbeTarget = "<b>RBE Beat Interval: </b>" + this.rbeTarget + " milliseconds";
         String rbeResult = "<b>RBE Result: </b>";
+        String rbeMean = "<b>RBE Mean: </b>" + this.rbeMean;
+        String rbeSD = "<b>RBE Standard Deviation: </b>" + this.rbeSD;
 
         this.textView.setText("\n");
         this.textView.append(Html.fromHtml(id));
@@ -249,8 +389,16 @@ public class EndBEST extends AppCompatActivity {
         this.textView.append(Html.fromHtml(rbeTarget));
         this.textView.append("\n");
         this.textView.append(Html.fromHtml(rbeResult));
+
+        if (this.rbeResult.equals("N/A"))
+            this.textView.append(this.rbeResult);
+        else
+            this.textView.append("\n" + this.rbeResult);
+
         this.textView.append("\n");
-        this.textView.append(this.rbeResult);
+        this.textView.append(Html.fromHtml(rbeMean));
+        this.textView.append("\n");
+        this.textView.append(Html.fromHtml(rbeSD));
         this.textView.append("\n\n");
     }
 
@@ -286,7 +434,7 @@ public class EndBEST extends AppCompatActivity {
                 pre1Result, pre2Result,
                 pve1Result, pve2Result,
                 ppe1Result, ppe2Result,
-                rbeResult,
+                rbeResult, rbeMean, rbeSD,
                 date, id);
 
         Profile profile = db.getProfile(id);

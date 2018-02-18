@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -9,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:text="Retrospective Verbal Estimate"
+        android:text="RVE"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24dp"
@@ -34,5 +35,31 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
         android:text="Begin"/>
+
+    <ImageButton
+        android:id="@+id/rveNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/rveInstructionsBeginButton"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentEnd="true"
+        android:background="#00000000"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/rvePrevious"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/rveInstructionsBeginButton"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentStart="true"
+        android:background="#00000000"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
 
 </RelativeLayout>

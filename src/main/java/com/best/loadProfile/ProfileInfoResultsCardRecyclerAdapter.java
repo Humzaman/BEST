@@ -120,6 +120,8 @@ public class ProfileInfoResultsCardRecyclerAdapter extends RecyclerView.Adapter<
                 intent.putExtra("ppe1Target", results.getPpe1Target());
                 intent.putExtra("ppe2Target", results.getPpe2Target());
                 intent.putExtra("rbeTarget", results.getRbeTarget());
+                intent.putExtra("rbeMean", results.getRbeMean());
+                intent.putExtra("rbeSD", results.getRbeSD());
 
                 view.getContext().startActivity(intent);
             }

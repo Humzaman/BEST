@@ -12,7 +12,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static DatabaseHelper DBHinstance = null;
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "BESTDatabase";
     private static final String TABLE_PROFILES = "profiles";
     private static final String TABLE_RESULTS = "results";
@@ -46,6 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String PPE1_RESULT = "ppe1Result";
     private static final String PPE2_RESULT = "ppe2Result";
     private static final String RBE_RESULT = "rbeResult";
+    private static final String RBE_MEAN = "rbeMean";
+    private static final String RBE_SD = "rbeSD";
     private static final String RESULTS_DATE = "resultsDate";
     private static final String RESULTS_ID = "resultsId";
 
@@ -80,6 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PPE1_TARGET + " TEXT," + PPE1_RESULT + " TEXT,"
                 + PPE2_TARGET + " TEXT," + PPE2_RESULT + " TEXT,"
                 + RBE_TARGET + " TEXT," + RBE_RESULT + " TEXT,"
+                + RBE_MEAN + " TEXT," + RBE_SD + " TEXT,"
                 + RESULTS_DATE + " TEXT," + RESULTS_ID + " TEXT,"
                 + "FOREIGN KEY (" + RESULTS_ID + ") REFERENCES " + TABLE_PROFILES + "(idNumber) " + ")";
 
@@ -136,6 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(PPE2_RESULT, results.getPpe2Result());
         values.put(RBE_TARGET, results.getRbeTarget());
         values.put(RBE_RESULT, results.getRbeResult());
+        values.put(RBE_MEAN, results.getRbeMean());
+        values.put(RBE_SD, results.getRbeSD());
         values.put(RESULTS_DATE, results.getTestDate());
         values.put(RESULTS_ID, results.getResultsId());
 
@@ -210,8 +215,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 results.setPpe2Result(cursor.getString(13));
                 results.setRbeTarget(cursor.getString(14));
                 results.setRbeResult(cursor.getString(15));
-                results.setTestDate(cursor.getString(16));
-                results.setResultsId(cursor.getString(17));
+                results.setRbeMean(cursor.getString(16));
+                results.setRbeSD(cursor.getString(17));
+                results.setTestDate(cursor.getString(18));
+                results.setResultsId(cursor.getString(19));
                 // Adding results to list
                 resultsList.add(results);
             } while (cursor.moveToNext());
@@ -251,8 +258,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 results.setPpe2Result(cursor.getString(13));
                 results.setRbeTarget(cursor.getString(14));
                 results.setRbeResult(cursor.getString(15));
-                results.setTestDate(cursor.getString(16));
-                results.setResultsId(cursor.getString(17));
+                results.setRbeMean(cursor.getString(16));
+                results.setRbeSD(cursor.getString(17));
+                results.setTestDate(cursor.getString(18));
+                results.setResultsId(cursor.getString(19));
                 // Adding results to list
                 resultsList.add(results);
             } while (cursor.moveToNext());

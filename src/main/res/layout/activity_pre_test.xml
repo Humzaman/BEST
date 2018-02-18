@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <Button
@@ -11,6 +12,47 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/button_color"
-        />
+        android:background="@drawable/button_color"/>
+
+    <TextView
+        android:id="@+id/preTestTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/preTestButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Keep track of time in your head until the second beep."
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"/>
+
+    <ImageButton
+        android:id="@+id/redoPRE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"
+        android:background="#00000000"
+        android:elevation="0dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_replay_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/cancelPRE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="#00000000"
+        android:elevation="0dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_clear_black_24dp"/>
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -47,6 +48,8 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        setupActionBar();
+
         this.idNumberEditText = findViewById(R.id.idNumberEditText2);
         this.lastNameEditText = findViewById(R.id.lastNameEditText2);
         this.firstNameEditText = findViewById(R.id.firstNameEditText2);
@@ -69,6 +72,23 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         new DateInputMask(this.dobEditText);
 
         fillProfile();
+    }
+
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void fillProfile() {

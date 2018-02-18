@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     "PRE1 Target", "PRE1 Result", "PRE2 Target", "PRE2 Result",
                     "PVE1 Target", "PVE1 Result", "PVE2 Target", "PVE2 Result",
                     "PPE1 Target", "PPE1 Result", "PPE2 Target", "PPE2 Result",
-                    "RBE Target", "RBE Result"};
+                    "RBE Target", "RBE Result", "RBE Mean", "RBE SD"};
 
             writer.writeNext(columns);
 
@@ -140,13 +140,12 @@ public class MainActivity extends AppCompatActivity {
                             profile.getDob(), profile.getGender(), profile.getHandedness(),
                             profile.getEducationLevel(), profile.getNotes(), profile.getCreationDate(),
                             "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A",
-                            "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"};
+                            "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"};
 
                             writer.writeNext(data);
                 }
                 else {
                     for (Results results : resultsList) {
-
                         String data[] = {profile.getIdNumber(), profile.getLastName(), profile.getFirstName(),
                                 profile.getDob(), profile.getGender(), profile.getHandedness(),
                                 profile.getEducationLevel(), profile.getNotes(), profile.getCreationDate(),
@@ -157,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
                                 results.getPve2Target(), results.getPve2Result(),
                                 results.getPpe1Target(), results.getPpe1Result(),
                                 results.getPpe2Target(), results.getPpe2Result(),
-                                results.getRbeTarget(), results.getRbeResult()};
+                                results.getRbeTarget(), results.getRbeResult(),
+                                results.getRbeMean(), results.getRbeSD()};
 
                         writer.writeNext(data);
                     }

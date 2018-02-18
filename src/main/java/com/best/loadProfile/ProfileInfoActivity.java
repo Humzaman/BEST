@@ -15,7 +15,9 @@ import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
 import com.best.subtasks.StartBEST;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProfileInfoActivity extends AppCompatActivity {
@@ -81,6 +83,15 @@ public class ProfileInfoActivity extends AppCompatActivity {
     private void startBEST() {
         Intent intent = new Intent(this, StartBEST.class);
         intent.putExtra("id", id);
+        intent.putExtra("bestDate", (new SimpleDateFormat("MM/dd/yyyy HH:mm")).format(new Date()));
+        intent.putExtra("rveResult", "N/A");
+        intent.putExtra("pre1Result", "N/A");
+        intent.putExtra("pre2Result", "N/A");
+        intent.putExtra("pve1Result", "N/A");
+        intent.putExtra("pve2Result", "N/A");
+        intent.putExtra("ppe1Result", "N/A");
+        intent.putExtra("ppe2Result", "N/A");
+        intent.putExtra("rbeResult", "N/A");
         startActivity(intent);
     }
 

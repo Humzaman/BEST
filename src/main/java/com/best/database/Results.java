@@ -19,6 +19,8 @@ public class Results {
     private String ppe1Result;
     private String ppe2Result;
     private String rbeResult;
+    private String rbeMean;
+    private String rbeSD;
     private String testDate;
     private String resultsId;
 
@@ -33,7 +35,7 @@ public class Results {
                    String pre1Result, String pre2Result,
                    String pve1Result, String pve2Result,
                    String ppe1Result, String ppe2Result,
-                   String rbeResult,
+                   String rbeResult, String rbeMean, String rbeSD,
                    String testDate, String resultsId) {
         this.rveTarget = rveTarget;
         this.pre1Target = pre1Target;
@@ -51,6 +53,8 @@ public class Results {
         this.ppe1Result = ppe1Result;
         this.ppe2Result = ppe2Result;
         this.rbeResult = rbeResult;
+        this.rbeMean = rbeMean;
+        this.rbeSD = rbeSD;
         this.testDate = testDate;
         this.resultsId = resultsId;
     }
@@ -197,5 +201,21 @@ public class Results {
 
     public void setResultsId(String resultsId) {
         this.resultsId = resultsId;
+    }
+
+    public String getRbeMean() {
+        return rbeMean;
+    }
+
+    public void setRbeMean(String rbeMean) {
+        this.rbeMean = rbeMean;
+    }
+
+    public String getRbeSD() {
+        return rbeSD;
+    }
+
+    public void setRbeSD(String rbeSD) {
+        this.rbeSD = rbeSD;
     }
 }

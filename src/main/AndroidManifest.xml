@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.best">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -12,15 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.best"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                android:resource="@xml/filepaths"/>
         </provider>
 
         <activity
@@ -73,97 +72,97 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.RVE.RVEInstructions"
+            android:name=".subtasks.A_RVE.RVEInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.RVE.RVETest"
+            android:name=".subtasks.A_RVE.RVETest"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.RVE.RVEDone"
+            android:name=".subtasks.A_RVE.RVEDone"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PRE.PREInstructions"
+            android:name=".subtasks.B_PRE.PREInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PRE.PRE1Test"
+            android:name=".subtasks.B_PRE.PRE1Test"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PRE.PREInterim"
+            android:name=".subtasks.B_PRE.PREInterim"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PRE.PRE2Test"
+            android:name=".subtasks.B_PRE.PRE2Test"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PVE.PVEInstructions"
+            android:name=".subtasks.C_PVE.PVEInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PVE.PVE1Test"
+            android:name=".subtasks.C_PVE.PVE1Test"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PVE.PVE1Done"
+            android:name=".subtasks.C_PVE.PVE1Done"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PVE.PVEInterim"
+            android:name=".subtasks.C_PVE.PVEInterim"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PVE.PVE2Test"
+            android:name=".subtasks.C_PVE.PVE2Test"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PVE.PVE2Done"
+            android:name=".subtasks.C_PVE.PVE2Done"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PPE.PPEInstructions"
+            android:name=".subtasks.D_PPE.PPEInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PPE.PPE1Test"
+            android:name=".subtasks.D_PPE.PPE1Test"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PPE.PPEInterim"
+            android:name=".subtasks.D_PPE.PPEInterim"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.PPE.PPE2Test"
+            android:name=".subtasks.D_PPE.PPE2Test"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.RBE.RBEInstructions"
+            android:name=".subtasks.E_RBE.RBEInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".subtasks.RBE.RBETest"
+            android:name=".subtasks.E_RBE.RBETest"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
@@ -188,5 +187,11 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".subtasks.BESTComplete"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
     </application>
+
 </manifest>

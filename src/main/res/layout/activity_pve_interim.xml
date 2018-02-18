@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/pveTitleTextView"
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:text="Prospective\nVerbal Estimate"
+        android:text="Prospective\nVerbal Estimate 2"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24dp"
@@ -37,5 +38,31 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
         android:text="Begin"/>
+
+    <ImageButton
+        android:id="@+id/pve2Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/pveInterimBeginButton"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentEnd="true"
+        android:background="#00000000"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/pve2Previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/pveInterimBeginButton"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentStart="true"
+        android:background="#00000000"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
 
 </RelativeLayout>
