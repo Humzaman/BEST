@@ -2,10 +2,12 @@ package com.best.createProfile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,15 +22,21 @@ import android.widget.TextView;
 import com.best.R;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
-import com.best.subtasks.StartBESTfromCreate;
+import com.best.subtasks.StartBEST;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
-public class CreateProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class CreateProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     private DatabaseHelper db;
     // all the fields in the profile creation form
@@ -41,9 +49,21 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     private EditText dobEditText;
     private EditText notesEditText;
 
+    SimpleDateFormat simpleDateFormat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // force the date picker to show date in US format
+        String languageToLoad  = "en";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_create_profile);
 
         db = DatabaseHelper.getInstance(this);
@@ -66,7 +86,64 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
         populateSpinner(genderArray, this.genderSpinner);
         populateSpinner(handednessArray, this.handednessSpinner);
         populateSpinner(educationArray, this.educationSpinner);
-        new DateInputMask(this.dobEditText);
+
+        simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        this.dobEditText.setInputType(InputType.TYPE_NULL);
+
+        this.dobEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateOfBirth();
+            }
+        });
+
+        this.dobEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    dateOfBirth();
+                }
+            }
+        });
+
+    }
+
+    private void dateOfBirth() {
+        if (this.dobEditText.getText().toString().equals("")) {
+            Date date = new Date();
+
+            new SpinnerDatePickerDialogBuilder()
+                    .context(CreateProfileActivity.this)
+                    .callback(CreateProfileActivity.this)
+                    .spinnerTheme(R.style.DatePickerStyle)
+                    .defaultDate(1980, 0 , 1)
+                    .maxDate(Integer.parseInt((new SimpleDateFormat("yyyy")).format(date)), Integer.parseInt((new SimpleDateFormat("M")).format(date)) - 1,Integer.parseInt((new SimpleDateFormat("dd")).format(date)))
+                    //.minDate(Integer.parseInt((new SimpleDateFormat("yyyy")).format(date)) - 120, 0, 1)
+                    .build()
+                    .show();
+        }
+        else {
+            String date[] = this.dobEditText.getText().toString().split("/");
+
+            new SpinnerDatePickerDialogBuilder()
+                    .context(CreateProfileActivity.this)
+                    .callback(CreateProfileActivity.this)
+                    .spinnerTheme(R.style.DatePickerStyle)
+                    .defaultDate(Integer.parseInt(date[2]),
+                            Integer.parseInt(date[0]) - 1,
+                            Integer.parseInt(date[1]))
+                    .maxDate(Integer.parseInt((new SimpleDateFormat("yyyy")).format(date)),
+                            Integer.parseInt((new SimpleDateFormat("M")).format(date)) - 1,
+                            Integer.parseInt((new SimpleDateFormat("dd")).format(date)))
+                    .build()
+                    .show();
+        }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        dobEditText.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     // add the "Save Profile" button to the menu bar
@@ -180,10 +257,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                 || this.genderSpinner.getSelectedItemPosition() == 0
                 || this.handednessSpinner.getSelectedItemPosition() == 0
                 || this.educationSpinner.getSelectedItemPosition() == 0
-                || this.dobEditText.getText().toString().trim().isEmpty()
-                || this.dobEditText.getText().toString().trim().contains("M")
-                || this.dobEditText.getText().toString().trim().contains("D")
-                || this.dobEditText.getText().toString().trim().contains("Y"));
+                || this.dobEditText.getText().toString().trim().isEmpty());
     }
 
     private void saveProfile() {
@@ -216,7 +290,7 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
     }
 
     private void startBEST() {
-        Intent intent = new Intent(this, StartBESTfromCreate.class);
+        Intent intent = new Intent(this, StartBEST.class);
         intent.putExtra("id", this.idNumberEditText.getText().toString());
         intent.putExtra("bestDate", (new SimpleDateFormat("MM/dd/yyyy HH:mm")).format(new Date()));
         intent.putExtra("rveResult", "N/A");
@@ -224,9 +298,14 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
         intent.putExtra("pre2Result", "N/A");
         intent.putExtra("pve1Result", "N/A");
         intent.putExtra("pve2Result", "N/A");
-        intent.putExtra("ppe1Result", "N/A");
+        intent.putExtra("ppe1Result", "Ns/A");
         intent.putExtra("ppe2Result", "N/A");
         intent.putExtra("rbeResult", "N/A");
         startActivity(intent);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

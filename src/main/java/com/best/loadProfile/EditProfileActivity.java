@@ -2,11 +2,13 @@ package com.best.loadProfile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,15 +21,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.best.R;
-import com.best.createProfile.DateInputMask;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
-public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     // all the fields in the profile creation form
     private DatabaseHelper db;
@@ -43,9 +52,21 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     private String date;
     private String lastExamination;
 
+    SimpleDateFormat simpleDateFormat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // force the date picker to show date in US format
+        String languageToLoad  = "en";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_edit_profile);
 
         setupActionBar();
@@ -69,9 +90,51 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         populateSpinner(genderArray, this.genderSpinner);
         populateSpinner(handednessArray, this.handednessSpinner);
         populateSpinner(educationArray, this.educationSpinner);
-        new DateInputMask(this.dobEditText);
+
+        simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        this.dobEditText.setInputType(InputType.TYPE_NULL);
+
+        this.dobEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateOfBirth();
+            }
+        });
+
+        this.dobEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    dateOfBirth();
+                }
+            }
+        });
 
         fillProfile();
+    }
+
+    private void dateOfBirth() {
+        Date date1 = new Date();
+        String date[] = this.dobEditText.getText().toString().split("/");
+
+        new SpinnerDatePickerDialogBuilder()
+                .context(EditProfileActivity.this)
+                .callback(EditProfileActivity.this)
+                .spinnerTheme(R.style.DatePickerStyle)
+                .defaultDate(Integer.parseInt(date[2]),
+                        Integer.parseInt(date[0]) - 1,
+                        Integer.parseInt(date[1]))
+                .maxDate(Integer.parseInt((new SimpleDateFormat("yyyy")).format(date1)),
+                        Integer.parseInt((new SimpleDateFormat("M")).format(date1)) - 1,
+                        Integer.parseInt((new SimpleDateFormat("dd")).format(date1)))
+                .build()
+                .show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        dobEditText.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     private void setupActionBar() {
@@ -256,10 +319,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                 || this.genderSpinner.getSelectedItemPosition() == 0
                 || this.handednessSpinner.getSelectedItemPosition() == 0
                 || this.educationSpinner.getSelectedItemPosition() == 0
-                || this.dobEditText.getText().toString().trim().isEmpty()
-                || this.dobEditText.getText().toString().trim().contains("M")
-                || this.dobEditText.getText().toString().trim().contains("D")
-                || this.dobEditText.getText().toString().trim().contains("Y"));
+                || this.dobEditText.getText().toString().trim().isEmpty());
     }
 
     private void saveChanges() {
@@ -295,7 +355,12 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
 
         Intent intent = new Intent(this, ProfileInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("profileId",this.idNumberEditText.getText().toString());
+        intent.putExtra("profileId", this.idNumberEditText.getText().toString());
         startActivity(intent);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

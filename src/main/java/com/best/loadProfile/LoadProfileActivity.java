@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,13 +16,14 @@ public class LoadProfileActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_profile);
 
-        DatabaseHelper db = DatabaseHelper.getInstance(this);
+        db = DatabaseHelper.getInstance(this);
 
         // create and fill the recycler view with profile cards
         recyclerView = findViewById(R.id.loadProfileRecyclerView);
@@ -34,12 +36,30 @@ public class LoadProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.load_profile_actions, menu);
+        getMenuInflater().inflate(R.menu.profile_search, menu);
+
+        MenuItem item = menu.findItem(R.id.loadProfile_search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchProfiles(newText);
+                return false;
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void searchProfileClick(MenuItem item) {
-
+    private void searchProfiles(String searchTerm) {
+        adapter = new ProfileCardRecyclerAdapter(db.searchDB(searchTerm), searchTerm);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

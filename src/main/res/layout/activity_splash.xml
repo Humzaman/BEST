@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/splash"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.best.SplashActivity"
+    android:background="@color/colorPrimary">
+
+
+    <TextView
+        android:id="@+id/splashTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:text="Brief Estimate of\nSeconds Test (BEST)"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"/>
+
+    <TextView
+        android:id="@+id/splashSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/splashTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="A bedside measure of chronognosia"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="italic"/>
+
+    <RelativeLayout
+        android:id="@+id/splashNames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/splashSubtitle"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/splashNames1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developed by "
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/splashNames2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ciaran Considine, PhD\nChris Abeare, PhD"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_toRightOf="@id/splashNames1"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/splashNames3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_below="@id/splashNames"
+        android:text="Programed by Humza Khan"
+        android:layout_alignStart="@id/splashNames"
+        android:layout_alignEnd="@id/splashNames"/>
+
+    <TextView
+        android:id="@+id/splashInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:text="Tap anywhere to start"/>
+
+
+</RelativeLayout>

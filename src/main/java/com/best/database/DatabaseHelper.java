@@ -278,7 +278,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Profile> getAllProfiles() {
         List<Profile> profileList = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_PROFILES;
+        String selectQuery = "SELECT * FROM " + TABLE_PROFILES
+                + " ORDER BY " + LAST_NAME + ", " + FIRST_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -347,6 +348,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Deleting single profile
     public void deleteProfile(Profile profile) {
+        List<Results> resultsList = new ArrayList<>();
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_PROFILES, ID_NUMBER + " = ?",
@@ -355,5 +358,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(profile.getIdNumber()) });
 
         db.close();
+    }
+
+    public List<Profile> searchDB(String searchTerm) {
+        List<Profile> profileList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_PROFILES + " WHERE "
+                + ID_NUMBER + " LIKE '%"+searchTerm+"%' OR "
+                + FIRST_NAME + " LIKE '%"+searchTerm+"%' OR "
+                + LAST_NAME + " LIKE '%"+searchTerm+"%' OR "
+                + DOB + " LIKE '%"+searchTerm+"%' "
+                + "ORDER BY " + LAST_NAME;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Profile profile = new Profile();
+                profile.setIdNumber(cursor.getString(0));
+                profile.setLastName(cursor.getString(1));
+                profile.setFirstName(cursor.getString(2));
+                profile.setGender(cursor.getString(3));
+                profile.setHandedness(cursor.getString(4));
+                profile.setEducationLevel(cursor.getString(5));
+                profile.setDob(cursor.getString(6));
+                profile.setNotes(cursor.getString(7));
+                profile.setCreationDate(cursor.getString(8));
+                profile.setLastExamination(cursor.getString(9));
+                // Adding profile to list
+                profileList.add(profile);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        return profileList;
     }
 }
