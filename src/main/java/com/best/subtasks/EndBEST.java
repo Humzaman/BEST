@@ -20,6 +20,7 @@ import com.best.R;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
 import com.best.database.Results;
+import com.best.loadProfile.ProfileInfoActivity;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -199,8 +200,16 @@ public class EndBEST extends AppCompatActivity {
     }
 
     private void stopBEST() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = getIntent().getExtras();
+        String id = "";
+
+        if (bundle != null) {
+            id = (String) bundle.get("id");
+        }
+
+        Intent intent = new Intent(this, ProfileInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("profileId", id);
         startActivity(intent);
     }
 
@@ -456,7 +465,7 @@ public class EndBEST extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteResults();
+                stopBEST();
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -468,11 +477,5 @@ public class EndBEST extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    private void deleteResults() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 }

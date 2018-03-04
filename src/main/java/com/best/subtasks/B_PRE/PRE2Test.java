@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.best.MainActivity;
 import com.best.R;
+import com.best.loadProfile.ProfileInfoActivity;
 import com.best.subtasks.C_PVE.PVEInstructions;
 
 import java.text.DecimalFormat;
@@ -163,8 +163,16 @@ public class PRE2Test extends AppCompatActivity {
     }
 
     private void stopBEST() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = getIntent().getExtras();
+        String id = "";
+
+        if (bundle != null) {
+            id = (String) bundle.get("id");
+        }
+
+        Intent intent = new Intent(this, ProfileInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("profileId", id);
         startActivity(intent);
     }
 

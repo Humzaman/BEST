@@ -17,7 +17,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         RelativeLayout relativeLayout = findViewById(R.id.splash);
-
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -32,5 +31,4 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }

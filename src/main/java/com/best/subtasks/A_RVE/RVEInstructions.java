@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.best.MainActivity;
 import com.best.R;
 import com.best.loadProfile.ProfileInfoActivity;
 import com.best.subtasks.B_PRE.PREInstructions;
@@ -89,21 +88,31 @@ public class RVEInstructions extends AppCompatActivity {
         intent.putExtra("ppe2Result", ppe2Result);
         intent.putExtra("rbeResult", rbeResult);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void previous() {
-        Bundle bundle = getIntent().getExtras();
-        String id = "";
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stop BEST");
+        builder.setMessage("Are you sure you want to stop administering this BEST?\n\nResults will not be saved!");
 
-        if (bundle != null) {
-            id = (String) bundle.get("id");
-        }
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                stopBEST();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // do nothing
+            }
+        });
 
-        Intent intent = new Intent(this, ProfileInfoActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("profileId", id);
-        startActivity(intent);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -129,8 +138,16 @@ public class RVEInstructions extends AppCompatActivity {
     }
 
     private void stopBEST() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = getIntent().getExtras();
+        String id = "";
+
+        if (bundle != null) {
+            id = (String) bundle.get("id");
+        }
+
+        Intent intent = new Intent(this, ProfileInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("profileId", id);
         startActivity(intent);
     }
 

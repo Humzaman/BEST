@@ -1,5 +1,6 @@
 package com.best.loadProfile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.best.MainActivity;
 import com.best.R;
 import com.best.database.DatabaseHelper;
 
@@ -60,6 +62,13 @@ public class LoadProfileActivity extends AppCompatActivity {
     private void searchProfiles(String searchTerm) {
         adapter = new ProfileCardRecyclerAdapter(db.searchDB(searchTerm), searchTerm);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

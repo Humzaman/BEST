@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
-import com.best.MainActivity;
 import com.best.R;
+import com.best.loadProfile.ProfileInfoActivity;
 import com.best.subtasks.E_RBE.RBEInstructions;
 
 public class BESTComplete extends AppCompatActivity {
@@ -70,6 +70,7 @@ public class BESTComplete extends AppCompatActivity {
         intent.putExtra("ppe2Result", ppe2Result);
         intent.putExtra("rbeResult", rbeResult);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     @Override
@@ -95,8 +96,16 @@ public class BESTComplete extends AppCompatActivity {
     }
 
     private void stopBEST() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = getIntent().getExtras();
+        String id = "";
+
+        if (bundle != null) {
+            id = (String) bundle.get("id");
+        }
+
+        Intent intent = new Intent(this, ProfileInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("profileId", id);
         startActivity(intent);
     }
 
