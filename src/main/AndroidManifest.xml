@@ -57,11 +57,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".subtasks.StartBEST"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
-        <activity
             android:name=".subtasks.A_RVE.RVEInstructions"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

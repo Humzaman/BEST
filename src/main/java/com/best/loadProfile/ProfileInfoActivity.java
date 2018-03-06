@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.best.R;
 import com.best.database.DatabaseHelper;
 import com.best.database.Profile;
-import com.best.subtasks.StartBEST;
+import com.best.subtasks.A_RVE.RVEInstructions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,7 +88,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
     }
 
     private void startBEST() {
-        Intent intent = new Intent(this, StartBEST.class);
+        Intent intent = new Intent(this, RVEInstructions.class);
         intent.putExtra("id", id);
         intent.putExtra("bestDate", (new SimpleDateFormat("MM/dd/yyyy HH:mm")).format(new Date()));
         intent.putExtra("rveResult", "N/A");

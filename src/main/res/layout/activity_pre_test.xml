@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/preLay">
 
 
     <Button
@@ -36,7 +37,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp"
-        android:background="#00000000"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="0dp"
         android:scaleX="1.5"
         android:scaleY="1.5"
@@ -50,7 +51,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:background="#00000000"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="0dp"
         android:scaleX="1.5"
         android:scaleY="1.5"

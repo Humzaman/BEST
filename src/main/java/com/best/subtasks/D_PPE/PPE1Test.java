@@ -1,14 +1,23 @@
 package com.best.subtasks.D_PPE;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroupOverlay;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -23,6 +32,9 @@ public class PPE1Test extends AppCompatActivity {
     private SoundPool sound;
     private double time;
     private boolean done;
+    private Animator mCurrentAnimator;
+    private View mDisplayView;
+    private ImageButton redo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +50,23 @@ public class PPE1Test extends AppCompatActivity {
         time = 0;
         done = false;
 
-        ImageButton redo = findViewById(R.id.redoPPE);
+        mDisplayView = findViewById(R.id.ppeLay);
+        redo = findViewById(R.id.redoPPE);
         ImageButton cancel = findViewById(R.id.cancelPPE);
 
         redo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redo();
+                if (mCurrentAnimator == null) {
+                    redo();
+                }
             }
         });
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRestart();
+                finish();
             }
         });
 
@@ -84,14 +99,75 @@ public class PPE1Test extends AppCompatActivity {
     }
 
     private void redo() {
+        reveal(mDisplayView, R.color.colorPrimary, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                sound.release();
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                redo2();
+            }
+        });
+
+        //this.recreate();
+    }
+
+    private void redo2() {
         this.recreate();
     }
 
-    // go back to instructions if we return to this activity
+    private void reveal(View sourceView, int colorRes, Animator.AnimatorListener listener) {
+        final ViewGroupOverlay groupOverlay = (ViewGroupOverlay) getWindow().getDecorView().getOverlay();
+
+        final Rect displayRect = new Rect();
+        sourceView.getGlobalVisibleRect(displayRect);
+
+        // Make reveal cover the display and status bar.
+        final View revealView = new View(this);
+        revealView.setBottom(displayRect.bottom);
+        revealView.setLeft(displayRect.left);
+        revealView.setRight(displayRect.right);
+        revealView.setBackgroundColor(getResources().getColor(colorRes));
+        groupOverlay.add(revealView);
+
+        int revealCenterX = redo.getRight();
+        int revealCenterY = redo.getBottom();
+
+        float revealRadius = (float) Math.hypot(sourceView.getWidth(), sourceView.getHeight());
+
+        final Animator revealAnimator = ViewAnimationUtils.createCircularReveal(revealView, revealCenterX, revealCenterY, 0.0f, revealRadius);
+        revealAnimator.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+
+        final Animator alphaAnimator = ObjectAnimator.ofFloat(revealView, View.ALPHA, 0.0f);
+        alphaAnimator.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+        alphaAnimator.addListener(listener);
+
+        final AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(revealAnimator).before(alphaAnimator);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                groupOverlay.remove(revealView);
+                mCurrentAnimator = null;
+            }
+        });
+
+        mCurrentAnimator = animatorSet;
+        animatorSet.start();
+    }
+
     @Override
-    protected void onRestart() {
-        finish();
-        super.onRestart();
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        // If there's an animation in progress, end it immediately to ensure the state is
+        // up-to-date before it is serialized.
+        if (mCurrentAnimator != null) {
+            mCurrentAnimator.end();
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
