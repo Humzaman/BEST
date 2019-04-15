@@ -12,6 +12,7 @@ public class Results {
     private String rbeTarget;
 
     private String rveResult;
+    private String rveDeviation;
     private String pre1Result;
     private String pre2Result;
     private String pve1Result;
@@ -21,6 +22,8 @@ public class Results {
     private String rbeResult;
     private String rbeMean;
     private String rbeSD;
+    private String rbeMax;
+    private String rbeMin;
     private String testDate;
     private String resultsId;
 
@@ -31,11 +34,12 @@ public class Results {
                    String pve1Target, String pve2Target,
                    String ppe1Target, String ppe2Target,
                    String rbeTarget,
-                   String rveResult,
+                   String rveResult, String rveDeviation,
                    String pre1Result, String pre2Result,
                    String pve1Result, String pve2Result,
                    String ppe1Result, String ppe2Result,
                    String rbeResult, String rbeMean, String rbeSD,
+                   String rbeMax, String rbeMin,
                    String testDate, String resultsId) {
         this.rveTarget = rveTarget;
         this.pre1Target = pre1Target;
@@ -46,6 +50,7 @@ public class Results {
         this.ppe2Target = ppe2Target;
         this.rbeTarget = rbeTarget;
         this.rveResult = rveResult;
+        this.rveDeviation = rveDeviation;
         this.pre1Result = pre1Result;
         this.pre2Result = pre2Result;
         this.pve1Result = pve1Result;
@@ -55,6 +60,8 @@ public class Results {
         this.rbeResult = rbeResult;
         this.rbeMean = rbeMean;
         this.rbeSD = rbeSD;
+        this.rbeMax = rbeMax;
+        this.rbeMin = rbeMin;
         this.testDate = testDate;
         this.resultsId = resultsId;
     }
@@ -129,6 +136,14 @@ public class Results {
 
     public void setRveResult(String rveResult) {
         this.rveResult = rveResult;
+    }
+
+    public String getRveDeviation() {
+        return rveDeviation;
+    }
+
+    public void setRveDeviation(String rveDeviation) {
+        this.rveDeviation = rveDeviation;
     }
 
     public String getPre1Result() {
@@ -217,5 +232,21 @@ public class Results {
 
     public void setRbeSD(String rbeSD) {
         this.rbeSD = rbeSD;
+    }
+
+    public String getRbeMax() {
+        return rbeMax;
+    }
+
+    public void setRbeMax(String rbeMax) {
+        this.rbeMax = rbeMax;
+    }
+
+    public String getRbeMin() {
+        return rbeMin;
+    }
+
+    public void setRbeMin(String rbeMin) {
+        this.rbeMin = rbeMin;
     }
 }

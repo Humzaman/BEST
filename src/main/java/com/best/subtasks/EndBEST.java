@@ -23,7 +23,9 @@ import com.best.database.Results;
 import com.best.loadProfile.ProfileInfoActivity;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class EndBEST extends AppCompatActivity {
@@ -44,6 +46,7 @@ public class EndBEST extends AppCompatActivity {
     private String date;
     private String id;
     private String rveResult;
+    private String rveDeviation;
     private String pre1Result;
     private String pre2Result;
     private String pve1Result;
@@ -54,6 +57,8 @@ public class EndBEST extends AppCompatActivity {
 
     private String rbeMean;
     private String rbeSD;
+    private String rbeMin;
+    private String rbeMax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,14 @@ public class EndBEST extends AppCompatActivity {
             this.date = (String) bundle.get("bestDate");
             this.id = (String) bundle.get("id");
             this.rveResult = (String) bundle.get("rveResult");
+
+            if (this.rveResult.equals("N/A")) {
+                this.rveDeviation = "N/A";
+            }
+            else {
+                this.rveDeviation = Integer.toString(Integer.parseInt(this.rveResult) - Integer.parseInt(this.rveTarget));
+            }
+
             this.pre1Result = (String) bundle.get("pre1Result");
             this.pre2Result = (String) bundle.get("pre2Result");
             this.pve1Result = (String) bundle.get("pve1Result");
@@ -104,7 +117,7 @@ public class EndBEST extends AppCompatActivity {
                 this.rbeSD = "N/A";
             }
             else {
-                calculateMeanAndSD();
+                calculateMeanAndSDAndRange();
             }
         }
 
@@ -213,14 +226,22 @@ public class EndBEST extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void calculateMeanAndSD() {
+    private void calculateMeanAndSDAndRange() {
         List<String> rbeItems = Arrays.asList(this.rbeResult.split(","));
+        List<Integer> rbeItemsInt = new ArrayList<>();
+
+        for (String s : rbeItems) {
+            rbeItemsInt.add(Integer.valueOf(s.trim()));
+        }
+
+        this.rbeMax = String.valueOf(Collections.max(rbeItemsInt));
+        this.rbeMin = String.valueOf(Collections.min(rbeItemsInt));
 
         // calculate mean
         int meanSum = 0;
 
-        for (String i : rbeItems) {
-            meanSum += Integer.parseInt(i.trim());
+        for (Integer i : rbeItemsInt) {
+            meanSum += i;
         }
 
         double mean = meanSum / rbeItems.size();
@@ -229,8 +250,8 @@ public class EndBEST extends AppCompatActivity {
         // calculate standard deviation
         double sdSum = 0.0;
 
-        for (String j : rbeItems) {
-            sdSum += ((Integer.parseInt(j.trim()) - mean) * (Integer.parseInt(j.trim()) - mean));
+        for (Integer j : rbeItemsInt) {
+            sdSum += ((j - mean) * (j - mean));
         }
 
         this.rbeSD = String.valueOf((new DecimalFormat("#.#")).format(Math.sqrt(sdSum / rbeItems.size())));
@@ -254,6 +275,14 @@ public class EndBEST extends AppCompatActivity {
             rveResult = "<b>RVE Result: </b>" + this.rveResult;
         else
             rveResult = "<b>RVE Result: </b>" + this.rveResult + " seconds";
+
+        String rveDeviation;
+        if (this.rveDeviation.equals("1"))
+            rveDeviation = "<b>RVE Deviation: </b>" + this.rveDeviation + " second";
+        else if (this.rveDeviation.equals("N/A"))
+            rveDeviation = "<b>RVE Deviation: </b>" + this.rveDeviation;
+        else
+            rveDeviation = "<b>RVE Deviation: </b>" + this.rveDeviation + " seconds";
 
         String preTitle = "<b><big>Prospective Reproduction Estimate</big></b>";
         String preTarget1;
@@ -348,7 +377,9 @@ public class EndBEST extends AppCompatActivity {
             rbeTarget = "<b>RBE Beat Interval: </b>" + this.rbeTarget + " millisecond";
         else
             rbeTarget = "<b>RBE Beat Interval: </b>" + this.rbeTarget + " milliseconds";
-        String rbeResult = "<b>RBE Result: </b>";
+        String rbeResult = "<b>RBE Results: </b>";
+        String rbeMax = "<b>RBE Maximum Response: </b>" + this.rbeMax;
+        String rbeMin = "<b>RBE Minimum Response: </b>" + this.rbeMin;
         String rbeMean = "<b>RBE Mean: </b>" + this.rbeMean;
         String rbeSD = "<b>RBE Standard Deviation: </b>" + this.rbeSD;
 
@@ -362,6 +393,8 @@ public class EndBEST extends AppCompatActivity {
         this.textView.append(Html.fromHtml(rveTarget));
         this.textView.append("\n");
         this.textView.append(Html.fromHtml(rveResult));
+        this.textView.append("\n");
+        this.textView.append(Html.fromHtml(rveDeviation));
         this.textView.append("\n\n");
         this.textView.append(Html.fromHtml(preTitle));
         this.textView.append("\n\n");
@@ -396,19 +429,21 @@ public class EndBEST extends AppCompatActivity {
         this.textView.append(Html.fromHtml(rbeTitle));
         this.textView.append("\n\n");
         this.textView.append(Html.fromHtml(rbeTarget));
+        this.textView.append("\n\n");
+        this.textView.append(Html.fromHtml(rbeMean));
         this.textView.append("\n");
+        this.textView.append(Html.fromHtml(rbeSD));
+        this.textView.append("\n");
+        this.textView.append(Html.fromHtml(rbeMax));
+        this.textView.append("\n");
+        this.textView.append(Html.fromHtml(rbeMin));
+        this.textView.append("\n\n");
         this.textView.append(Html.fromHtml(rbeResult));
 
         if (this.rbeResult.equals("N/A"))
             this.textView.append(this.rbeResult);
         else
             this.textView.append("\n" + this.rbeResult);
-
-        this.textView.append("\n");
-        this.textView.append(Html.fromHtml(rbeMean));
-        this.textView.append("\n");
-        this.textView.append(Html.fromHtml(rbeSD));
-        this.textView.append("\n\n");
     }
 
     public void saveResultsDialog(MenuItem item) {
@@ -439,11 +474,12 @@ public class EndBEST extends AppCompatActivity {
                 pveTarget1, pveTarget2,
                 ppeTarget1, ppeTarget2,
                 rbeTarget,
-                rveResult,
+                rveResult, rveDeviation,
                 pre1Result, pre2Result,
                 pve1Result, pve2Result,
                 ppe1Result, ppe2Result,
                 rbeResult, rbeMean, rbeSD,
+                rbeMax, rbeMin,
                 date, id);
 
         Profile profile = db.getProfile(id);

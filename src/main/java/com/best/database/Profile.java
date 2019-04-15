@@ -1,5 +1,9 @@
 package com.best.database;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Profile {
 
     private String idNumber;
@@ -113,5 +117,14 @@ public class Profile {
 
     public void setLastExamination(String lastExamination) {
         this.lastExamination = lastExamination;
+    }
+
+    public List<String> getProfileInfo() {
+        List<String> info = new ArrayList<>();
+
+        info.addAll(Arrays.asList(getIdNumber(), getLastName(), getFirstName(), getGender(),
+                getHandedness(), getEducationLevel(), getDob(), getNotes()));
+
+        return info;
     }
 }

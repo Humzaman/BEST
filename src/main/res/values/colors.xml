@@ -8,4 +8,18 @@
     <color name="button_default">#D6D7D7</color>
 
     <color name="white">#FFFFFF</color>
+
+    <color name="selected_background_color">#556b2f</color>
+    <color name="unselected_background_color">#FFFFFF</color>
+    <color name="shadow_background_color">#2a4004</color>
+    <color name="unselected_header_background_color">#f5f5f5</color>
+
+    <color name="unselected_text_color">#000</color>
+    <color name="selected_text_color">#ffffff</color>
+    <color name="separator_color">#556b2f</color>
+
+    <color name="popup_menu_item_text_color">#88a5c9</color>
+
+    <color name="female_icon_color">#e9515f</color>
+    <color name="male_icon_color">#f28944</color>
 </resources>

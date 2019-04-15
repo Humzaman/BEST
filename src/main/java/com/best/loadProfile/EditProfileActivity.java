@@ -101,15 +101,6 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-        this.dobEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    dateOfBirth();
-                }
-            }
-        });
-
         fillProfile();
     }
 

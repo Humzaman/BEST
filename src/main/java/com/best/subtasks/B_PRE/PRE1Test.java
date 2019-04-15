@@ -105,7 +105,7 @@ public class PRE1Test extends AppCompatActivity {
                     }
                 });
             }
-        }, 2300);
+        }, 2700);
 
         timer.schedule(new TimerTask() {
             public void run() {
@@ -129,7 +129,7 @@ public class PRE1Test extends AppCompatActivity {
                     }
                 });
             }
-        }, preTarget + 300);
+        }, preTarget + 700);
     }
 
     private void redo() {

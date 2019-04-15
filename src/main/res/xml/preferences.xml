@@ -86,7 +86,7 @@
             android:numeric="integer"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="RBE">
+            android:title="RBE (strongly suggest no less than 750 ms)">
         </EditTextPreference>
     </PreferenceCategory>
 

@@ -58,7 +58,7 @@ public class RBETest extends AppCompatActivity {
         button.setClickable(false);
         timer = new Timer();
         sound = new SoundPool.Builder().build();
-        final int toneId = sound.load(this, R.raw.tone2, 1);
+        final int toneId = sound.load(this, R.raw.tone3, 1);
         beat = 0;
         beatCount = 0;
         beatCount2 = 0;

@@ -14,7 +14,8 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:rotation = "180"/>
 
     <TextView
         android:id="@+id/rveInstructionsTextView"
@@ -25,7 +26,8 @@
         android:layout_centerInParent="true"
         android:text="@string/rveInstructions"
         android:textColor="#000000"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:rotation = "180"/>
 
     <Button
         android:id="@+id/rveInstructionsBeginButton"

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingRight="16dp"
+              android:paddingLeft="16dp"
+              android:id="@+id/searchLayout">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/searchRadioGroup"
+        android:checkedButton="@id/searchRadioName">
+
+        <RadioButton
+            android:id="@+id/searchRadioID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ID#"/>
+
+        <RadioButton
+            android:id="@+id/searchRadioName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Name"/>
+
+        <RadioButton
+            android:id="@+id/searchRadioDOB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date of Birth"/>
+
+        <RadioButton
+            android:id="@+id/searchRadioDOE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Examination Date"/>
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Last Name"/>
+
+    <EditText
+        android:id="@+id/searchEditText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="First Name"
+        android:maxLength="35"/>
+
+</LinearLayout>

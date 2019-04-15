@@ -27,7 +27,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".AdditionalInfo"
+            android:name=".AdditionalInfoActivity"
             android:label="Author &amp; Measure Info"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
@@ -157,11 +157,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".loadProfile.ProfileInfoViewResult"
-            android:label="Results"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".loadProfile.EditProfileActivity"
             android:label="Edit Profile"
             android:screenOrientation="portrait">
@@ -179,8 +174,7 @@
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

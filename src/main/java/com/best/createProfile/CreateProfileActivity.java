@@ -97,21 +97,12 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
             }
         });
 
-        this.dobEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    dateOfBirth();
-                }
-            }
-        });
-
     }
 
     private void dateOfBirth() {
-        if (this.dobEditText.getText().toString().equals("")) {
-            Date date = new Date();
+        Date date = new Date();
 
+        if (this.dobEditText.getText().toString().equals("")) {
             new SpinnerDatePickerDialogBuilder()
                     .context(CreateProfileActivity.this)
                     .callback(CreateProfileActivity.this)
@@ -123,15 +114,15 @@ public class CreateProfileActivity extends AppCompatActivity implements AdapterV
                     .show();
         }
         else {
-            String date[] = this.dobEditText.getText().toString().split("/");
+            String inputtedDate[] = this.dobEditText.getText().toString().split("/");
 
             new SpinnerDatePickerDialogBuilder()
                     .context(CreateProfileActivity.this)
                     .callback(CreateProfileActivity.this)
                     .spinnerTheme(R.style.DatePickerStyle)
-                    .defaultDate(Integer.parseInt(date[2]),
-                            Integer.parseInt(date[0]) - 1,
-                            Integer.parseInt(date[1]))
+                    .defaultDate(Integer.parseInt(inputtedDate[2]),
+                            Integer.parseInt(inputtedDate[0]) - 1,
+                            Integer.parseInt(inputtedDate[1]))
                     .maxDate(Integer.parseInt((new SimpleDateFormat("yyyy")).format(date)),
                             Integer.parseInt((new SimpleDateFormat("M")).format(date)) - 1,
                             Integer.parseInt((new SimpleDateFormat("dd")).format(date)))

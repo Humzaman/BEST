@@ -28,6 +28,8 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void infoClick(MenuItem item) {
-        Intent intent = new Intent(this, AdditionalInfo.class);
+        Intent intent = new Intent(this, AdditionalInfoActivity.class);
         startActivity(intent);
     }
 
@@ -139,45 +141,72 @@ public class MainActivity extends AppCompatActivity {
             CSVWriter writer = new CSVWriter(new FileWriter(file));
             List<Profile> profileList = db.getAllProfiles();
 
-            String[] columns = {"ID#", "Last Name", "First Name", "Date of Birth",
+            List<String> columns = new ArrayList<>(Arrays.asList(
+                    "ID#", "Last Name", "First Name", "Date of Birth",
                     "Gender", "Handedness", "Education Level", "Notes", "Profile Creation Date",
                     "Examination Date",
-                    "RVE Target", "RVE Result",
+                    "RVE Target", "RVE Result", "RVE Deviation",
                     "PRE1 Target", "PRE1 Result", "PRE2 Target", "PRE2 Result",
                     "PVE1 Target", "PVE1 Result", "PVE2 Target", "PVE2 Result",
                     "PPE1 Target", "PPE1 Result", "PPE2 Target", "PPE2 Result",
-                    "RBE Target", "RBE Result", "RBE Mean", "RBE SD"};
+                    "RBE Target", "RBE Mean", "RBE SD", "RBE Max", "RBE Min"));
 
-            writer.writeNext(columns);
+            // one column for each RBE tap
+            for (int x = 0; x < 60; x++) {
+                columns.add("RBE " + (x + 1));
+            }
+
+            writer.writeNext(columns.toArray(new String[columns.size()]));
 
             for (Profile profile : profileList) {
                 List<Results> resultsList = db.getResults(profile.getIdNumber());
 
                 if (resultsList.size() == 0) {
-                    String data[] = {profile.getIdNumber(), profile.getLastName(), profile.getFirstName(),
+
+                    List<String> data = new ArrayList<>(Arrays.asList(
+                            profile.getIdNumber(), profile.getLastName(), profile.getFirstName(),
                             profile.getDob(), profile.getGender(), profile.getHandedness(),
                             profile.getEducationLevel(), profile.getNotes(), profile.getCreationDate(),
                             "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A",
-                            "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"};
+                            "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A",
+                            "N/A", "N/A", "N/A"));
 
-                            writer.writeNext(data);
+                    // adding 60 N/A's for RBE taps
+                    for (int x = 0; x < 60; x++) {
+                        data.add("N/A");
+                    }
+
+                    writer.writeNext(data.toArray(new String[data.size()]));
                 }
                 else {
                     for (Results results : resultsList) {
-                        String data[] = {profile.getIdNumber(), profile.getLastName(), profile.getFirstName(),
+                        List<String> data = new ArrayList<>(Arrays.asList(
+                                profile.getIdNumber(), profile.getLastName(), profile.getFirstName(),
                                 profile.getDob(), profile.getGender(), profile.getHandedness(),
                                 profile.getEducationLevel(), profile.getNotes(), profile.getCreationDate(),
-                                results.getTestDate(), results.getRveTarget(), results.getRveResult(),
+                                results.getTestDate(),
+                                results.getRveTarget(), results.getRveResult(), results.getRveDeviation(),
                                 results.getPre1Target(), results.getPre1Result(),
                                 results.getPre2Target(), results.getPre2Result(),
                                 results.getPve1Target(), results.getPve1Result(),
                                 results.getPve2Target(), results.getPve2Result(),
                                 results.getPpe1Target(), results.getPpe1Result(),
                                 results.getPpe2Target(), results.getPpe2Result(),
-                                results.getRbeTarget(), results.getRbeResult(),
-                                results.getRbeMean(), results.getRbeSD()};
+                                results.getRbeTarget(),
+                                results.getRbeMean(), results.getRbeSD(),
+                                results.getRbeMax(), results.getRbeMin()));
 
-                        writer.writeNext(data);
+                        // if RBE wasn't tested, add 60 N/A's for the taps
+                        if (results.getRbeResult().equals("N/A")) {
+                            for (int x = 0; x < 60; x++) {
+                                data.add("N/A");
+                            }
+                        }
+                        else {
+                            data.addAll(Arrays.asList(results.getRbeResult().split(", ")));
+                        }
+
+                        writer.writeNext(data.toArray(new String[data.size()]));
                     }
                 }
             }
